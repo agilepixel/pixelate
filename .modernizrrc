@@ -1,0 +1,33 @@
+{
+  "minify": false,
+  "options": [
+    "prefixed",
+    "prefixedCSS",
+    "prefixedCSSValue",
+    "setClasses",
+    "addTest",
+    "html5printshiv",
+    "testProp",
+    "fnBind"
+  ],
+  "feature-detects": [
+    "cookies",
+    "css\/animations",
+    "css\/calc",
+    "css\/flexbox",
+    "css\/rgba",
+    "css\/vhunit",
+    "css\/vwunit",
+    "css/cssgrid",
+    "dom\/passiveeventlisteners",
+    "fullscreen-api",
+    "geolocation",
+    "history",
+    "img\/webp",
+    "performance",
+    "svg",
+    "video"
+  ]
+}
+
+
