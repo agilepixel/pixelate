@@ -1,5 +1,6 @@
 /* eslint "import/no-commonjs": "off" */
 const path = require('path');
+const fs = require('fs');
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -15,6 +16,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const open = require('open');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 const config = require('./config');
 const gitInfo = gitDescribeSync(__dirname);
@@ -257,9 +259,79 @@ const webpackConfig = {
     },
 };
 
-config.staticHtml.forEach(config => {
-    webpackConfig.plugins.push(new HtmlWebpackPlugin(config));
-});
+const walk = function(directory, extension) {
+    let results = [];
+    const list = fs.readdirSync(directory);
+
+    list.forEach(file => {
+        file = `${directory}/${file}`;
+        const stat = fs.statSync(file);
+        if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
+            /* Recurse into a subdirectory */
+            results = results.concat(walk(file));
+        } else if (
+            stat &&
+            !stat.isDirectory() &&
+            path.extname(file) === extension &&
+            path.basename(file).indexOf('_') !== 0
+        ) {
+            /* Is a file */
+            results.push(file);
+        }
+    });
+    return results;
+};
+
+//start looking in the main twig folder
+
+let staticCount = 0;
+
+if (typeof config.twigDir != 'undefined'){
+    const twigFiles = walk(config.twigDir, '.twig');
+    twigFiles.map(
+        file => {
+            staticCount++;
+            webpackConfig.plugins.push(
+                new HtmlWebpackPlugin({
+                    filename: file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html'),
+                    template: path.resolve(file),
+                    hash: false,
+                    showErrors: true,
+                    xhtml: true,
+                    alwaysWriteToDisk: isDevelopmentServer,
+                }));
+        }
+    );    
+}
+
+if (typeof config.pugDir != 'undefined'){
+    const pugFiles = walk(config.pugDir, '.pug');
+    pugFiles.map(
+        file => {
+            staticCount++;
+            webpackConfig.plugins.push(
+                new HtmlWebpackPlugin({
+                    filename: file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html'),
+                    template: path.resolve(file),
+                    hash: false,
+                    showErrors: true,
+                    xhtml: true,
+                    alwaysWriteToDisk: isDevelopmentServer,
+                }));
+        }
+    );    
+}
+
+if (typeof config.staticHtml != 'undefined' && config.staticHtml.length > 0){
+    config.staticHtml.forEach(config => {
+        staticCount++;
+        webpackConfig.plugins.push(new HtmlWebpackPlugin(config));
+    });
+}
+
+if (staticCount > 0 && isDevelopmentServer){
+    webpackConfig.plugins.push(new HtmlWebpackHarddiskPlugin());
+}
 
 /* eslint-disable global-require */
 /** Let's only load dependencies as needed */
