@@ -293,7 +293,7 @@ if (typeof config.twigDir != 'undefined'){
             staticCount++;
             webpackConfig.plugins.push(
                 new HtmlWebpackPlugin({
-                    filename: file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html'),
+                    filename: config.htmlOutput+file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html'),
                     template: path.resolve(file),
                     hash: false,
                     showErrors: true,
@@ -311,7 +311,7 @@ if (typeof config.pugDir != 'undefined'){
             staticCount++;
             webpackConfig.plugins.push(
                 new HtmlWebpackPlugin({
-                    filename: file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html'),
+                    filename: config.htmlOutput+file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html'),
                     template: path.resolve(file),
                     hash: false,
                     showErrors: true,
