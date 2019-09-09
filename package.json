@@ -1,6 +1,6 @@
 {
   "name": "@agilepixel/pixelate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {
@@ -24,16 +24,16 @@
     "@babel/preset-env": "~7.5.5",
     "@babel/runtime": "~7.5.5",
     "autoprefixer": "~9.6.0",
-    "babel-eslint": "~10.0.2",
+    "babel-eslint": "~10.0.3",
     "babel-loader": "~8.0.6",
     "clean-webpack-plugin": "~3.0.0",
     "copy-webpack-plugin": "~5.0.4",
     "cosmiconfig": "~5.2.1",
     "css-loader": "~3.1.0",
     "cssnano": "~4.1.10",
-    "eslint": "~6.1.0",
+    "eslint": "~6.3.0",
     "eslint-config-agilepixel": "~0.3.0",
-    "eslint-loader": "~2.2.1",
+    "eslint-loader": "~3.0.0",
     "eslint-plugin-import": "~2.18.2",
     "file-loader": "~4.1.0",
     "git-describe": "~4.0.4",
@@ -55,13 +55,13 @@
     "twig": "~1.13.3",
     "twig-loader": "~0.5.1",
     "url-loader": "~2.1.0",
-    "webpack": "~4.39.0",
+    "webpack": "~4.39.3",
     "webpack-assets-manifest": "~3.1.1",
     "webpack-bundle-analyzer": "~3.4.1",
-    "webpack-cli": "~3.3.6",
+    "webpack-cli": "~3.3.8",
     "webpack-dashboard": "~3.0.7",
     "webpack-dev-server": "~3.7.2",
-    "webpack-merge": "~4.2.1"
+    "webpack-merge": "~4.2.2"
   },
   "devDependencies": {}
 }
