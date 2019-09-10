@@ -37,7 +37,7 @@ if (isDevelopmentServer){
 const webpackConfig = {
     context: config.paths.assets,
     entry: config.entry,
-    devtool: config.enabled.sourceMaps ? '#source-map' : undefined,
+    devtool: config.enabled.sourceMaps ? 'source-map' : 'nosources-source-map',
     output: {
         path: config.paths.dist,
         publicPath,
