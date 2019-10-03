@@ -1,6 +1,6 @@
 {
   "name": "@agilepixel/pixelate",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {

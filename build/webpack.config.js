@@ -13,7 +13,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const { gitDescribeSync } = require('git-describe');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const open = require('open');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
@@ -185,7 +184,6 @@ const webpackConfig = {
         ],
     },
     plugins: [
-        new DashboardPlugin(),
         new BundleAnalyzerPlugin({
             analyzerMode: profiler ? 'static' : 'disabled',
         }),
