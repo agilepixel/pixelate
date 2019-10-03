@@ -17,6 +17,7 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const open = require('open');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = require('./config');
 const gitInfo = gitDescribeSync(__dirname);
@@ -61,7 +62,7 @@ const webpackConfig = {
         rules: [
             {
                 enforce: 'pre',
-                test: /\.(js)?$/,
+                test: /\.(js|vue)?$/,
                 include: config.paths.assets,
                 exclude: [
                     /(node_modules|bower_components)(?![/|\\](bootstrap|foundation-sites))/,
@@ -78,6 +79,10 @@ const webpackConfig = {
                 ],
                 loader: 'babel-loader',
                 options: {},
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
             },
             {
                 test: /\.s?[ac]ss$/,
@@ -152,7 +157,8 @@ const webpackConfig = {
         modules: [config.paths.assets, 'node_modules', 'bower_components'],
         enforceExtension: false,
         alias: {
-            modernizr: path.resolve(__dirname, '../.modernizrrc'),
+            modernizr: config.paths.modernizr,
+            vue$: 'vue/dist/vue.esm.js',
             masonry: 'masonry-layout',
             isotope: 'isotope-layout',
         },
@@ -244,6 +250,7 @@ const webpackConfig = {
             }),
         }),*/
         new CopyWebpackPlugin(config.copy, { manifest: config.manifest }),
+        new VueLoaderPlugin(),
     ],
     // eslint-disable-next-line unicorn/prevent-abbreviations
     devServer: {

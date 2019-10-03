@@ -26,6 +26,7 @@ const config = merge(
         cacheBusting: '[name]_[hash]',
         paths: {
             root: rootPath,
+            modernizr: path.join(rootPath, '.modernizrrc'),
             assets: path.join(rootPath, ''),
             dist: path.join(rootPath, distPath),
         },
