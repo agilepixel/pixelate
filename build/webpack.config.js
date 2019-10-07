@@ -90,10 +90,15 @@ const webpackConfig = {
                     {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
+                            implementation: require('sass'),
+                            sassOptions: {
+                                fiber: require('fibers'),
+                            },
                             hmr: isDevelopmentServer,
                             reloadAll: true,
                         },
                     },
+                    'vue-style-loader',
                     'css-loader',
                     'postcss-loader',
                     'resolve-url-loader',
