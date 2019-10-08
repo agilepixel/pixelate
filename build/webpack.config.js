@@ -98,7 +98,6 @@ const webpackConfig = {
                             reloadAll: true,
                         },
                     },
-                    'vue-style-loader',
                     'css-loader',
                     'postcss-loader',
                     'resolve-url-loader',
