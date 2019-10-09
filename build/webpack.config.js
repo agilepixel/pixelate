@@ -14,7 +14,7 @@ const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const { gitDescribeSync } = require('git-describe');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const open = require('open');
-const WebpackAssetsManifest = require('webpack-assets-manifest');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -350,14 +350,25 @@ if (config.env.production) {
 }
 
 webpackConfig.plugins.push(
-    new WebpackAssetsManifest({
-        publicPath,
-        output: config.manifestPath,
-        space: 2,
-        writeToDisk: isDevelopmentServer,
-        assets: config.manifest,
-        replacer: require('./util/assetManifestsFormatter'),
-    })
+    new ManifestPlugin(
+        {
+            publicPath,
+            basePath: config.publicPath,
+            fileName: config.manifestPath,
+            writeToFileEmit: isDevelopmentServer,
+            filter: file => !/\.(LICENSE|scss|map)/.test(file.name),
+            map: file => {
+                if (file.isAsset){
+                    return file;
+                }
+                const filename = path.basename(file.name);
+                const sourcePath = path.basename(path.dirname(file.name));
+                const targetPath = path.basename(path.dirname(file.path));
+                file.name = `${config.publicPath}${targetPath}/${filename}`;
+                return file;
+            },
+        }
+    )
 );
 
 module.exports = webpackConfig;
