@@ -36,6 +36,12 @@ const config = merge(
             cacheBusting: isProduction,
             watcher: !!argv.watch,
         },
+        resolveAlias: {
+            modernizr: path.join(rootPath, '.modernizrrc'),
+            vue$: 'vue/dist/vue.esm.js',
+            masonry: 'masonry-layout',
+            isotope: 'isotope-layout',
+        },
         watch: [],
         manifestPath: 'assets.json',
     },

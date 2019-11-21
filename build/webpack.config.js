@@ -11,7 +11,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
-const { gitDescribeSync } = require('git-describe');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const open = require('open');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -19,7 +18,6 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = require('./config');
-const gitInfo = gitDescribeSync(__dirname);
 
 const assetsFilenames = config.enabled.cacheBusting
     ? config.cacheBusting
@@ -159,12 +157,7 @@ const webpackConfig = {
     resolve: {
         modules: [config.paths.assets, 'node_modules', 'bower_components'],
         enforceExtension: false,
-        alias: {
-            modernizr: config.paths.modernizr,
-            vue$: 'vue/dist/vue.esm.js',
-            masonry: 'masonry-layout',
-            isotope: 'isotope-layout',
-        },
+        alias: config.resolveAlias,
     },
     resolveLoader: {
         moduleExtensions: ['-loader'],
