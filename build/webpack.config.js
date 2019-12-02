@@ -10,7 +10,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+//const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const open = require('open');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -29,7 +29,7 @@ const isDevelopmentServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 const publicPath = isDevelopmentServer ? 'https://localhost:8080/' : config.publicPath;
 
 if (isDevelopmentServer){
-    open(config.devUrl);
+    open(config.devUrl, {url: true});
 }
 
 const webpackConfig = {
@@ -43,12 +43,13 @@ const webpackConfig = {
     },
     stats: {
         hash: false,
+        logging: 'warn',
         version: false,
-        timings: false,
+        timings: true,
         children: false,
-        errors: false,
-        errorDetails: false,
-        warnings: false,
+        errors: true,
+        errorDetails: true,
+        warnings: true,
         chunks: false,
         modules: false,
         reasons: false,
@@ -140,6 +141,9 @@ const webpackConfig = {
             {
                 test: /\.pug$/,
                 loader: 'pug-loader',
+                options: {
+                    pretty: !config.env.production,
+                },
             },
             {
                 test: /\.twig$/,
@@ -355,7 +359,7 @@ webpackConfig.plugins.push(
                     return file;
                 }
                 const filename = path.basename(file.name);
-                const sourcePath = path.basename(path.dirname(file.name));
+                //const sourcePath = path.basename(path.dirname(file.name));
                 const targetPath = path.basename(path.dirname(file.path));
                 file.name = `${config.publicPath}${targetPath}/${filename}`;
                 return file;

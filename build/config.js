@@ -4,9 +4,9 @@ const { argv } = require('yargs');
 const merge = require('webpack-merge');
 const cosmiconfig = require('cosmiconfig');
 
-const explorer = cosmiconfig('pixelate');
+const explorer = cosmiconfig.cosmiconfigSync('pixelate');
 
-const userConfig = explorer.searchSync();
+const userConfig = explorer.search();
 
 const isProduction = !!((argv.env && argv.env.production) || argv.p);
 const rootPath =
