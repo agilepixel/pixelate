@@ -63,7 +63,7 @@ const webpackConfig = {
                 test: /\.(js|vue)?$/,
                 include: config.paths.assets,
                 exclude: [
-                    /(node_modules|bower_components)(?![/|\\](bootstrap|foundation-sites))/,
+                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
                 ],
                 loader: 'eslint-loader',
                 options: {
@@ -73,7 +73,7 @@ const webpackConfig = {
             {
                 test: /\.js$/,
                 exclude: [
-                    /(node_modules|bower_components)(?![/|\\](bootstrap|foundation-sites))/,
+                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
                 ],
                 loader: 'babel-loader',
                 options: {},
