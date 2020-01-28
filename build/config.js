@@ -18,41 +18,39 @@ const distPath = userConfig != null && userConfig.config && userConfig.config.di
     ? userConfig.config.distPath
     : 'public/dist';
     
-const config = merge(
-    {
-        open: true,
-        copy: ['images/**/*'],
-        proxyUrl: 'http://localhost:8080',
-        cacheBusting: '[name]_[hash]',
-        paths: {
-            root: rootPath,
-            modernizr: path.join(rootPath, '.modernizrrc'),
-            assets: path.join(rootPath, ''),
-            dist: path.join(rootPath, distPath),
-        },
-        enabled: {
-            sourceMaps: !isProduction,
-            optimize: isProduction,
-            cacheBusting: isProduction,
-            watcher: !!argv.watch,
-        },
-        resolveAlias: {
-            modernizr: path.join(rootPath, '.modernizrrc'),
-            vue$: 'vue/dist/vue.esm.js',
-            masonry: 'masonry-layout',
-            isotope: 'isotope-layout',
-        },
-        watch: [],
-        manifestPath: 'assets.json',
+const config = merge({
+    open: true,
+    copy: ['images/**/*'],
+    proxyUrl: 'http://localhost:8080',
+    cacheBusting: '[name]_[hash]',
+    paths: {
+        root: rootPath,
+        modernizr: path.join(rootPath, '.modernizrrc'),
+        assets: path.join(rootPath, ''),
+        dist: path.join(rootPath, distPath),
     },
-    userConfig.config
-);
+    enabled: {
+        sourceMaps: !isProduction,
+        optimize: isProduction,
+        cacheBusting: isProduction,
+        watcher: !!argv.watch,
+    },
+    resolveAlias: {
+        modernizr: path.join(rootPath, '.modernizrrc'),
+        vue$: 'vue/dist/vue.esm.js',
+        masonry: 'masonry-layout',
+        isotope: 'isotope-layout',
+    },
+    watch: [],
+    manifestPath: 'assets.json',
+},
+userConfig.config);
 
 module.exports = merge(config, {
-    env: Object.assign(
-        { production: isProduction, development: !isProduction },
-        argv.env
-    ),
+    env: Object.assign({
+        production: isProduction, development: !isProduction, 
+    },
+    argv.env),
     publicPath: `${config.publicPath}/${path.basename(config.paths.dist)}/`,
     manifest: {},
 });

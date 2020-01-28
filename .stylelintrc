@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "max-empty-lines": null,
+    "string-quotes": "single",
+    "function-url-quotes": null,
+    "color-hex-length": "long",
+    "declaration-colon-newline-after": null,
+    "font-family-name-quotes": null,
+    "number-leading-zero": "never",
+    "value-list-comma-newline-after": null,
+    "max-nesting-depth": 7,
+    "rule-empty-line-before": null,
+    "indentation": null,
+    "no-descending-specificity": null
+  }
+}

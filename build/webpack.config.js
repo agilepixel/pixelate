@@ -35,7 +35,7 @@ if (isDevelopmentServer){
 const webpackConfig = {
     context: config.paths.assets,
     entry: config.entry,
-    devtool: config.enabled.sourceMaps ? 'source-map' : 'nosources-source-map',
+    devtool: config.enabled.sourceMaps ? 'source-map' : false,
     output: {
         path: config.paths.dist,
         publicPath,
@@ -66,9 +66,7 @@ const webpackConfig = {
                     /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
                 ],
                 loader: 'eslint-loader',
-                options: {
-                    fix: true,
-                },
+                options: {fix: true},
             },
             {
                 test: /\.js$/,
@@ -84,20 +82,19 @@ const webpackConfig = {
             },
             {
                 test: /\.s?[ac]ss$/,
-                include: config.paths.assets,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             implementation: require('sass'),
-                            sassOptions: {
-                                fiber: require('fibers'),
-                            },
+                            sassOptions: {fiber: require('fibers')},
                             hmr: isDevelopmentServer,
                             reloadAll: true,
                         },
                     },
-                    'css-loader',
+                    {
+                        loader: 'css-loader', options: { importLoaders: 1 }, 
+                    },
                     'postcss-loader',
                     'resolve-url-loader',
                     'sass-loader',
@@ -107,17 +104,13 @@ const webpackConfig = {
                 test: /\.(png|jpe?g|gif|svg)$/,
                 include: config.paths.assets,
                 loader: 'file-loader',
-                options: {
-                    name: `images/${assetsFilenames}.[ext]`,
-                },
+                options: {name: `images/${assetsFilenames}.[ext]`},
             },
             {
                 test: /\.(ttf|eot)$/,
                 include: config.paths.assets,
                 loader: 'file-loader',
-                options: {
-                    name: `fonts/${assetsFilenames}.[ext]`,
-                },
+                options: {name: `fonts/${assetsFilenames}.[ext]`},
             },
             {
                 test: /\.woff2?$/,
@@ -137,20 +130,17 @@ const webpackConfig = {
                 test: /\.modernizrrc(\.json)?$/,
                 loader: 'modernizr!json',
             },
-            { test: /\.json$/, loader: 'json-loader' },
+            {
+                test: /\.json$/, loader: 'json-loader', 
+            },
             {
                 test: /\.pug$/,
                 loader: 'pug-loader',
-                options: {
-                    pretty: !config.env.production,
-                },
+                options: {pretty: !config.env.production},
             },
             {
                 test: /\.twig$/,
                 loader: 'twig-loader',
-                options: {
-                    // See options section below
-                },
             },
             {
                 test: /\.(njk|nunjucks)$/,
@@ -163,9 +153,7 @@ const webpackConfig = {
         enforceExtension: false,
         alias: config.resolveAlias,
     },
-    resolveLoader: {
-        moduleExtensions: ['-loader'],
-    },
+    resolveLoader: {moduleExtensions: ['-loader']},
     externals: {
         window: 'window',
         jquery: 'jQuery',
@@ -176,22 +164,14 @@ const webpackConfig = {
             new TerserPlugin({
                 cache: true,
                 parallel: true,
-                terserOptions: {
-                    compress: {
-                        drop_console: config.env.production,
-                    },
-                },
+                terserOptions: {compress: {drop_console: config.env.production}},
             }),
         ],
     },
     plugins: [
-        new BundleAnalyzerPlugin({
-            analyzerMode: profiler ? 'static' : 'disabled',
-        }),
+        new BundleAnalyzerPlugin({analyzerMode: profiler ? 'static' : 'disabled'}),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
-        new CleanWebpackPlugin({
-            verbose: false,
-        }),
+        new CleanWebpackPlugin({verbose: false}),
         new MiniCssExtractPlugin({
             filename: `styles/${assetsFilenames}.css`,
             allChunks: true,
@@ -209,16 +189,12 @@ const webpackConfig = {
         new webpack.LoaderOptionsPlugin({
             minimize: config.enabled.optimize,
             debug: config.enabled.watcher,
-            stats: {
-                colors: true,
-            },
+            stats: {colors: true},
         }),
         new webpack.LoaderOptionsPlugin({
             test: /\.s?css$/,
             options: {
-                output: {
-                    path: config.paths.dist,
-                },
+                output: {path: config.paths.dist},
                 context: config.paths.assets,
                 postcss: [autoprefixer()],
             },
@@ -253,9 +229,7 @@ const webpackConfig = {
     ],
     // eslint-disable-next-line unicorn/prevent-abbreviations
     devServer: {
-        headers: {
-            'Access-Control-Allow-Origin': config.devUrl,
-        },
+        headers: {'Access-Control-Allow-Origin': config.devUrl},
         https: true,
         disableHostCheck: true,
         publicPath: config.devUrl,
@@ -294,38 +268,32 @@ let staticCount = 0;
 
 if (typeof config.twigDir != 'undefined'){
     const twigFiles = walk(config.twigDir, '.twig');
-    twigFiles.map(
-        file => {
-            staticCount++;
-            webpackConfig.plugins.push(
-                new HtmlWebpackPlugin({
-                    filename: config.htmlOutput+file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html'),
-                    template: path.resolve(file),
-                    hash: false,
-                    showErrors: true,
-                    xhtml: true,
-                    alwaysWriteToDisk: isDevelopmentServer,
-                }));
-        }
-    );    
+    twigFiles.map(file => {
+        staticCount++;
+        webpackConfig.plugins.push(new HtmlWebpackPlugin({
+            filename: config.htmlOutput+file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html'),
+            template: path.resolve(file),
+            hash: false,
+            showErrors: true,
+            xhtml: true,
+            alwaysWriteToDisk: isDevelopmentServer,
+        }));
+    });    
 }
 
 if (typeof config.pugDir != 'undefined'){
     const pugFiles = walk(config.pugDir, '.pug');
-    pugFiles.map(
-        file => {
-            staticCount++;
-            webpackConfig.plugins.push(
-                new HtmlWebpackPlugin({
-                    filename: config.htmlOutput+file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html'),
-                    template: path.resolve(file),
-                    hash: false,
-                    showErrors: true,
-                    xhtml: true,
-                    alwaysWriteToDisk: isDevelopmentServer,
-                }));
-        }
-    );    
+    pugFiles.map(file => {
+        staticCount++;
+        webpackConfig.plugins.push(new HtmlWebpackPlugin({
+            filename: config.htmlOutput+file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html'),
+            template: path.resolve(file),
+            hash: false,
+            showErrors: true,
+            xhtml: true,
+            alwaysWriteToDisk: isDevelopmentServer,
+        }));
+    });    
 }
 
 if (typeof config.staticHtml != 'undefined' && config.staticHtml.length > 0){
@@ -346,26 +314,22 @@ if (config.env.production) {
     webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin());
 }
 
-webpackConfig.plugins.push(
-    new ManifestPlugin(
-        {
-            publicPath,
-            basePath: config.publicPath,
-            fileName: config.manifestPath,
-            writeToFileEmit: isDevelopmentServer,
-            filter: file => !/\.(LICENSE|scss|map)/.test(file.name),
-            map: file => {
-                if (file.isAsset){
-                    return file;
-                }
-                const filename = path.basename(file.name);
-                //const sourcePath = path.basename(path.dirname(file.name));
-                const targetPath = path.basename(path.dirname(file.path));
-                file.name = `${config.publicPath}${targetPath}/${filename}`;
-                return file;
-            },
+webpackConfig.plugins.push(new ManifestPlugin({
+    publicPath,
+    basePath: config.publicPath,
+    fileName: config.manifestPath,
+    writeToFileEmit: isDevelopmentServer,
+    filter: file => !/\.(LICENSE|scss|map)/.test(file.name),
+    map: file => {
+        if (file.isAsset){
+            return file;
         }
-    )
-);
+        const filename = path.basename(file.name);
+        //const sourcePath = path.basename(path.dirname(file.name));
+        const targetPath = path.basename(path.dirname(file.path));
+        file.name = `${config.publicPath}${targetPath}/${filename}`;
+        return file;
+    },
+}));
 
 module.exports = webpackConfig;

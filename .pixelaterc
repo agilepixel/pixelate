@@ -1,0 +1,8 @@
+{
+  "entry": {
+    "main": [
+      "./test/style.scss"
+    ],
+  },
+  "distPath": "dist"  
+}
