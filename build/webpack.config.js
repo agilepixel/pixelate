@@ -1,3 +1,4 @@
+/*! 🧮🧩 2020*/
 /* eslint "import/no-commonjs": "off" */
 const path = require('path');
 const fs = require('fs');

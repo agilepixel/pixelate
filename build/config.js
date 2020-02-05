@@ -1,3 +1,5 @@
+/*! 🧮🧩 2020*/
+/* eslint "import/no-commonjs": "off" */
 const path = require('path');
 
 const { argv } = require('yargs');

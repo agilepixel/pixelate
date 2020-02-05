@@ -1,6 +1,7 @@
 {
   "entry": {
     "main": [
+      "./test/script.js",
       "./test/style.scss"
     ],
   },
