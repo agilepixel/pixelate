@@ -1,5 +1,16 @@
 @import '~normalize.css';
 
+@font-face {
+    font-family: 'sony';
+    src: url('./fonts/test.woff2?nby1qn') format('woff2'),
+      url('./fonts/test.ttf?nby1qn') format('truetype'),
+      url('./fonts/test.woff?nby1qn') format('woff'),
+      url('./fonts/test.svg?nby1qn') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
 body {
     background: red;
 }
