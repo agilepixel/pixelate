@@ -13,14 +13,7 @@ module.exports = {
     },
     "parser": "babel-eslint",
     "parserOptions": {    
-      "ecmaFeatures": {
-        "globalReturn": true,
-        "generators": false,
-        "objectLiteralDuplicateProperties": false
-      },
-      "ecmaVersion": 2017,
-      "sourceType": "module",
-      "allowImportExportEverywhere": true
+      
     },
     'plugins': [
       'import',
@@ -40,10 +33,10 @@ module.exports = {
     },
     'rules': {
       'max-len': 'off',
-      'no-debugger': 'off',
-      'valid-jsdoc': 'warn',
-      'comma-spacing': 'error',
-      'array-bracket-spacing': ["error", "never"]
+      'import/dynamic-import-chunkname': 'off',
+      "template-curly-spacing" : "off",
+      "indent" : "off"
     },
+    
   };
   
