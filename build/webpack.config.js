@@ -91,14 +91,22 @@ const webpackConfig = {
                             sassOptions: {fiber: require('fibers')},
                             hmr: isDevelopmentServer,
                             reloadAll: true,
+                            sourceMap: config.enabled.sourceMaps,
                         },
                     },
                     {
-                        loader: 'css-loader', options: { importLoaders: 1 }, 
+                        loader: 'css-loader', options: {
+                            importLoaders: 1, esModule: true, sourceMap: config.enabled.sourceMaps,
+                        }, 
                     },
-                    'postcss-loader',
+                    {
+                        loader: 'postcss-loader', options: {sourceMap: config.enabled.sourceMaps}, 
+                    },
                     'resolve-url-loader',
-                    'sass-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {sourceMap: true},
+                    },
                 ],
             },
             {
