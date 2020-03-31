@@ -63,3 +63,5 @@ typings/
 yarn.*
 
 dist/
+
+.DS_Store
