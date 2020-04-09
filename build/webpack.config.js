@@ -92,6 +92,12 @@ const webpackConfig = {
                             hmr: isDevelopmentServer,
                             reloadAll: true,
                             sourceMap: config.enabled.sourceMaps,
+                            publicPath: resourcePath => {
+                                if (/^\.\//.test(config.publicPath)){
+                                    return path.join(path.relative(path.dirname(resourcePath), config.paths.relative), config.publicPath);
+                                }
+                                return config.publicPath;
+                            },
                         },
                     },
                     {

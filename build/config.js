@@ -19,6 +19,10 @@ userConfig != null && userConfig.paths && userConfig.paths.root
 const distPath = userConfig != null && userConfig.config && userConfig.config.distPath
     ? userConfig.config.distPath
     : 'public/dist';
+
+const relativeRootPath = userConfig != null && userConfig.config && userConfig.config.relativeRoot
+    ? userConfig.config.relativeRoot
+    : '';
     
 const config = merge({
     open: true,
@@ -30,6 +34,7 @@ const config = merge({
         modernizr: path.join(rootPath, '.modernizrrc'),
         assets: path.join(rootPath, ''),
         dist: path.join(rootPath, distPath),
+        relative: path.join(rootPath, relativeRootPath),
     },
     enabled: {
         sourceMaps: !isProduction,
