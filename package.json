@@ -1,6 +1,6 @@
 {
   "name": "@agilepixel/pixelate",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "test:production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules -p --config=build/webpack.config.js"
   },
   "engines": {
-    "node": ">= 10.0.0"
+    "node": ">= 10.13.0"
   },
   "files": [
     "build/*",
@@ -39,14 +39,14 @@
     "copy-webpack-plugin": "^5.1.1",
     "cosmiconfig": "^6.0.0",
     "cross-env": "^7.0.2",
-    "css-loader": "^3.5.1",
+    "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
     "deepmerge": "^4.2.2",
     "eslint": "^6.8.0",
-    "eslint-config-agilepixel": "^0.7.0",
-    "eslint-loader": "^3.0.4",
+    "eslint-config-agilepixel": "^0.8.1",
+    "eslint-loader": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
-    "fibers": "^4.0.2",
+    "fibers": "^5.0.0",
     "file-loader": "^6.0.0",
     "html-webpack-harddisk-plugin": "^1.0.1",
     "html-webpack-plugin": "^4.2.0",
@@ -58,19 +58,19 @@
     "pug": "^2.0.4",
     "pug-loader": "^2.4.0",
     "resolve-url-loader": "^3.1.1",
-    "sass": "^1.26.3",
+    "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "stylelint": "^13.3.1",
-    "stylelint-formatter-pretty": "^2.0.0",
+    "stylelint": "^13.3.3",
+    "stylelint-formatter-pretty": "^2.0.1",
     "stylelint-webpack-plugin": "^1.2.3",
-    "terser-webpack-plugin": "^2.3.5",
-    "twig": "^1.15.0",
-    "twig-loader": "^0.5.1",
+    "terser-webpack-plugin": "^2.3.6",
+    "twig": "^1.15.1",
+    "twig-loader": "^0.5.3",
     "url-loader": "^4.1.0",
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.42.1",
-    "webpack-bundle-analyzer": "^3.6.1",
+    "webpack": "^4.43.0",
+    "webpack-bundle-analyzer": "^3.7.0",
     "webpack-dev-server": "^3.10.3",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-merge": "^4.2.2"

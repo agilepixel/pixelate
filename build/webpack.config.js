@@ -263,7 +263,7 @@ const walk = function(directory, extension) {
         const stat = fs.statSync(file);
         if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
             /* Recurse into a subdirectory */
-            results = results.concat(walk(file));
+            results = results.concat(walk(file, extension));
         } else if (
             stat &&
             !stat.isDirectory() &&
@@ -285,12 +285,18 @@ if (typeof config.twigDir != 'undefined'){
     const twigFiles = walk(config.twigDir, '.twig');
     twigFiles.map(file => {
         staticCount++;
+        const basedir = config.htmlOutput;
+        const filename = config.htmlOutput+file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html');
+        const directories = path.relative(basedir, filename).split(path.sep);
+        const parentPath = '../';
+        const base = directories.length > 1 ? parentPath.repeat(directories.length - 1) : false;
         webpackConfig.plugins.push(new HtmlWebpackPlugin({
-            filename: config.htmlOutput+file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html'),
+            filename,
             template: path.resolve(file),
             hash: false,
             showErrors: true,
             xhtml: true,
+            base,
             alwaysWriteToDisk: isDevelopmentServer,
         }));
     });    
@@ -300,12 +306,18 @@ if (typeof config.pugDir != 'undefined'){
     const pugFiles = walk(config.pugDir, '.pug');
     pugFiles.map(file => {
         staticCount++;
+        const basedir = config.htmlOutput;
+        const filename = config.htmlOutput+file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html');
+        const directories = path.relative(basedir, filename).split(path.sep);
+        const parentPath = '../';
+        const base = directories.length > 1 ? parentPath.repeat(directories.length - 1) : false;
         webpackConfig.plugins.push(new HtmlWebpackPlugin({
-            filename: config.htmlOutput+file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html'),
+            filename,
             template: path.resolve(file),
             hash: false,
             showErrors: true,
             xhtml: true,
+            base,
             alwaysWriteToDisk: isDevelopmentServer,
         }));
     });    
