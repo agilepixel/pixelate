@@ -250,7 +250,10 @@ const webpackConfig = {
         publicPath: config.devUrl,
         compress: false,
         sockPort: 8080,
-        overlay: true,        
+        overlay: true,
+        writeToDisk: filePath => {
+            return /\.(png|jpe?g|gif|svg|ttf|eot)$/.test(filePath);
+        },        
     },
 };
 

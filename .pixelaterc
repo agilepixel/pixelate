@@ -5,5 +5,9 @@
       "./test/style.scss"
     ],
   },
+  "htmlOutput": "",
+  "publicPath": "/pixelate",
+  "devUrl": "http://localhost/pixelate/dist",
+  "pugDir" : "./test/templates",
   "distPath": "dist"  
 }
