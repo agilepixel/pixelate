@@ -1,6 +1,6 @@
 {
   "name": "@agilepixel/pixelate",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {
@@ -78,7 +78,7 @@
   },
   "devDependencies": {
     "@agilepixel/poise": "^1.1.2",
-    "eslint-plugin-import": "^2.21.1",
+    "eslint-plugin-import": "^2.21.2",
     "webpack-cli": "^3.3.11"
   }
 }
