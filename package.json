@@ -1,6 +1,6 @@
 {
   "name": "@agilepixel/pixelate",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {
@@ -58,6 +58,7 @@
     "postcss-loader": "^3.0.0",
     "pug": "^3.0.0",
     "pug-loader": "^2.4.0",
+    "pug-plain-loader": "^1.0.0",
     "resolve-url-loader": "^3.1.1",
     "sass": "^1.26.8",
     "sass-loader": "^8.0.2",

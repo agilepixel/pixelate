@@ -153,8 +153,18 @@ const webpackConfig = {
             },
             {
                 test: /\.pug$/,
-                loader: 'pug-loader',
-                options: {pretty: !config.env.production},
+                oneOf: [
+                    {
+                        resourceQuery: /^\?vue/,
+                        use: ['pug-plain-loader'],
+                    },
+                    {
+                        use: {
+                            loader: 'pug-loader',
+                            options: {pretty: !config.env.production},
+                        },
+                    },
+                ],
             },
             {
                 test: /\.twig$/,
@@ -247,7 +257,7 @@ const webpackConfig = {
     ],
     // eslint-disable-next-line unicorn/prevent-abbreviations
     devServer: {
-        headers: {'Access-Control-Allow-Origin': config.devUrl},
+        headers: {'Access-Control-Allow-Origin': '*'},
         https: true,
         disableHostCheck: true,
         publicPath: config.devUrl,
