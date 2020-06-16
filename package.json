@@ -33,7 +33,6 @@
     "@babel/plugin-transform-runtime": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "@babel/runtime": "^7.10.2",
-    "autoprefixer": "^9.8.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -56,6 +55,7 @@
     "modernizr-loader": "^1.0.1",
     "open": "^7.0.4",
     "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
     "pug": "^3.0.0",
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.0.0",
@@ -78,7 +78,7 @@
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
-    "@agilepixel/poise": "^1.1.2",
+    "@agilepixel/poise": "^2.0.0",
     "eslint-plugin-import": "^2.21.2",
     "webpack-cli": "^3.3.11"
   }

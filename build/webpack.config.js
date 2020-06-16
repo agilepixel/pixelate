@@ -122,13 +122,17 @@ const webpackConfig = {
                 test: /\.(png|jpe?g|gif|svg)$/,
                 include: config.paths.assets,
                 loader: 'file-loader',
-                options: {name: `images/${assetsFilenames}.[ext]`},
+                options: {
+                    name: `images/${assetsFilenames}.[ext]`, esModule: false,
+                },
             },
             {
                 test: /\.(ttf|eot)$/,
                 include: config.paths.assets,
                 loader: 'file-loader',
-                options: {name: `fonts/${assetsFilenames}.[ext]`},
+                options: {
+                    name: `fonts/${assetsFilenames}.[ext]`, esModule: false,
+                },
             },
             {
                 test: /\.woff2?$/,
@@ -138,6 +142,7 @@ const webpackConfig = {
                     limit: 10000,
                     mimetype: 'application/font-woff',
                     name: `fonts/${assetsFilenames}.[ext]`,
+                    esModule: false,
                 },
             },
             {
@@ -265,7 +270,7 @@ const webpackConfig = {
         sockPort: 8080,
         overlay: true,
         writeToDisk: filePath => {
-            return /\.(png|jpe?g|gif|svg|ttf|eot)$/.test(filePath);
+            return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);
         },        
     },
 };
