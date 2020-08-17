@@ -1,9 +1,8 @@
+/*! 🧮🧩 2020*/
 module.exports = {
     'root': true,
     'extends': 'agilepixel',
-    'globals': {
-      'wp': true,
-    },
+    'globals': {'wp': true},
     'env': {
       'node': true,
       'es6': true,
@@ -11,10 +10,8 @@ module.exports = {
       'browser': true,
       'jquery': true,
     },
-    "parser": "babel-eslint",
-    "parserOptions": {    
-      
-    },
+    'parser': 'babel-eslint',
+    'parserOptions': {},
     'plugins': [
       'import',
     ],
@@ -24,18 +21,17 @@ module.exports = {
         'node_modules',
         '\\.(coffee|scss|css|less|hbs|svg|json)$',
       ],
-      "polyfills": [
-        "Promise",
-        "IntersectionObserver",
-        "fetch",
-        "Array.from"
-      ]
+      'polyfills': [
+        'Promise',
+        'IntersectionObserver',
+        'fetch',
+        'Array.from',
+      ],
     },
     'rules': {
       'max-len': 'off',
-      'import/dynamic-import-chunkname': 'off',
-      "template-curly-spacing" : "off",
-      "indent" : "off"
+      'template-curly-spacing' : 'off',
+      'indent' : 'off',
     },
     
   };

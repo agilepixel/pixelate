@@ -257,7 +257,7 @@ const webpackConfig = {
                 version: gitInfo.toString(),
             }),
         }),*/
-        new CopyWebpackPlugin(config.copy, { manifest: config.manifest }),
+        new CopyWebpackPlugin({patterns:config.copy}),
         new VueLoaderPlugin(),
     ],
     // eslint-disable-next-line unicorn/prevent-abbreviations

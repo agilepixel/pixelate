@@ -9,5 +9,9 @@
   "publicPath": "/pixelate",
   "devUrl": "http://localhost/pixelate/dist",
   "pugDir" : "./test/templates",
-  "distPath": "dist"  
+  "distPath": "dist",
+  "copy": [{
+    "from": "./test/images/*",
+    "to": "./public/dist/images/"
+  }] 
 }

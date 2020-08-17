@@ -3,7 +3,7 @@
 const path = require('path');
 
 const { argv } = require('yargs');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const cosmiconfig = require('cosmiconfig');
 
 const explorer = cosmiconfig.cosmiconfigSync('pixelate');
@@ -12,21 +12,21 @@ const userConfig = explorer.search();
 
 const isProduction = !!((argv.env && argv.env.production) || argv.p);
 const rootPath =
-userConfig != null && userConfig.paths && userConfig.paths.root
+userConfig != undefined && userConfig.paths && userConfig.paths.root
     ? userConfig.paths.root
     : process.cwd();
 
-const distPath = userConfig != null && userConfig.config && userConfig.config.distPath
+const distPath = userConfig != undefined && userConfig.config && userConfig.config.distPath
     ? userConfig.config.distPath
     : 'public/dist';
 
-const relativeRootPath = userConfig != null && userConfig.config && userConfig.config.relativeRoot
+const relativeRootPath = userConfig != undefined && userConfig.config && userConfig.config.relativeRoot
     ? userConfig.config.relativeRoot
     : '';
     
 const config = merge({
     open: true,
-    copy: ['images/**/*'],
+    copy: [],
     proxyUrl: 'http://localhost:8080',
     cacheBusting: '[name]_[hash]',
     paths: {
