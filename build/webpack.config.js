@@ -257,7 +257,6 @@ const webpackConfig = {
                 version: gitInfo.toString(),
             }),
         }),*/
-        new CopyWebpackPlugin({patterns:config.copy}),
         new VueLoaderPlugin(),
     ],
     // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -274,6 +273,10 @@ const webpackConfig = {
         },        
     },
 };
+
+if (config.copy.length > 0){
+    webpackConfig.plugins.push( new CopyWebpackPlugin({patterns:config.copy}) );
+}
 
 const walk = function(directory, extension) {
     let results = [];
