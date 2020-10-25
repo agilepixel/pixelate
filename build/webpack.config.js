@@ -33,6 +33,22 @@ if (isDevelopmentServer){
     open(config.devUrl, {url: true});
 }
 
+const entryKeys = Object.keys(config.entry);
+
+const validStylelintDirectories = [];
+for (const entryKey of entryKeys) {
+    for (const directory of config.entry[entryKey]) {
+        const newPath = `${path.dirname(directory)}/**/*.s?(a|c)ss`;
+        if (validStylelintDirectories.indexOf(newPath) === -1) {
+            validStylelintDirectories.push(newPath);
+        }
+        const newPathRoot = `${path.dirname(directory)}/*.s?(a|c)ss`;
+        if (validStylelintDirectories.indexOf(newPathRoot) === -1) {
+            validStylelintDirectories.push(newPathRoot);
+        }
+    }
+}
+
 const webpackConfig = {
     context: config.paths.assets,
     entry: config.entry,
@@ -67,7 +83,7 @@ const webpackConfig = {
                     /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
                 ],
                 loader: 'eslint-loader',
-                options: {fix: true},
+                options: { fix: true },
             },
             {
                 test: /\.js$/,
@@ -88,42 +104,53 @@ const webpackConfig = {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             implementation: require('sass'),
-                            sassOptions: {fiber: require('fibers')},
+                            sassOptions: { fiber: require('fibers') },
                             hmr: isDevelopmentServer,
                             reloadAll: true,
                             sourceMap: config.enabled.sourceMaps,
-                            publicPath: resourcePath => {
-                                if (isDevelopmentServer){
+                            publicPath: (resourcePath) => {
+                                if (isDevelopmentServer) {
                                     return `/${config.distPath}/`;
                                 }
-                                if (/^\.\//.test(config.publicPath)){
-                                    return path.join(path.relative(path.dirname(resourcePath), config.paths.relative), config.publicPath);
+                                if (/^\.\//.test(config.publicPath)) {
+                                    return path.join(
+                                        path.relative(
+                                            path.dirname(resourcePath),
+                                            config.paths.relative
+                                        ),
+                                        config.publicPath
+                                    );
                                 }
                                 return config.publicPath;
                             },
                         },
                     },
                     {
-                        loader: 'css-loader', options: {
-                            importLoaders: 1, esModule: true, sourceMap: config.enabled.sourceMaps,
-                        }, 
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            esModule: true,
+                            sourceMap: config.enabled.sourceMaps,
+                        },
                     },
                     {
-                        loader: 'postcss-loader', options: {sourceMap: config.enabled.sourceMaps}, 
+                        loader: 'postcss-loader',
+                        options: { sourceMap: config.enabled.sourceMaps },
                     },
                     'resolve-url-loader',
                     {
                         loader: 'sass-loader',
-                        options: {sourceMap: true},
+                        options: { sourceMap: true },
                     },
                 ],
             },
             {
-                test: /\.(png|jpe?g|gif|svg)$/,
+                test: /\.(png|jpe?g|gif|svg|mp4|ogv|webp)$/,
                 include: config.paths.assets,
                 loader: 'file-loader',
                 options: {
-                    name: `images/${assetsFilenames}.[ext]`, esModule: false,
+                    name: `images/${assetsFilenames}.[ext]`,
+                    esModule: false,
                 },
             },
             {
@@ -131,7 +158,8 @@ const webpackConfig = {
                 include: config.paths.assets,
                 loader: 'file-loader',
                 options: {
-                    name: `fonts/${assetsFilenames}.[ext]`, esModule: false,
+                    name: `fonts/${assetsFilenames}.[ext]`,
+                    esModule: false,
                 },
             },
             {
@@ -154,7 +182,8 @@ const webpackConfig = {
                 loader: 'modernizr!json',
             },
             {
-                test: /\.json$/, loader: 'json-loader', 
+                test: /\.json$/,
+                loader: 'json-loader',
             },
             {
                 test: /\.pug$/,
@@ -166,7 +195,7 @@ const webpackConfig = {
                     {
                         use: {
                             loader: 'pug-loader',
-                            options: {pretty: !config.env.production},
+                            options: { pretty: !config.env.production },
                         },
                     },
                 ],
@@ -186,7 +215,7 @@ const webpackConfig = {
         enforceExtension: false,
         alias: config.resolveAlias,
     },
-    resolveLoader: {moduleExtensions: ['-loader']},
+    resolveLoader: { moduleExtensions: ['-loader'] },
     externals: {
         window: 'window',
         jquery: 'jQuery',
@@ -197,14 +226,18 @@ const webpackConfig = {
             new TerserPlugin({
                 cache: true,
                 parallel: true,
-                terserOptions: {compress: {drop_console: config.env.production}},
+                terserOptions: {
+                    compress: { drop_console: config.env.production },
+                },
             }),
         ],
     },
     plugins: [
-        new BundleAnalyzerPlugin({analyzerMode: profiler ? 'static' : 'disabled'}),
+        new BundleAnalyzerPlugin({
+            analyzerMode: profiler ? 'static' : 'disabled',
+        }),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
-        new CleanWebpackPlugin({verbose: false}),
+        new CleanWebpackPlugin({ verbose: false }),
         new MiniCssExtractPlugin({
             filename: `styles/${assetsFilenames}.css`,
             allChunks: true,
@@ -222,12 +255,12 @@ const webpackConfig = {
         new webpack.LoaderOptionsPlugin({
             minimize: config.enabled.optimize,
             debug: config.enabled.watcher,
-            stats: {colors: true},
+            stats: { colors: true },
         }),
         new webpack.LoaderOptionsPlugin({
             test: /\.s?css$/,
             options: {
-                output: {path: config.paths.dist},
+                output: { path: config.paths.dist },
                 context: config.paths.assets,
                 postcss: [autoprefixer()],
             },
@@ -244,6 +277,7 @@ const webpackConfig = {
         new StyleLintPlugin({
             failOnError: !config.enabled.watcher,
             syntax: 'scss',
+            files: validStylelintDirectories,
             formatter: require('stylelint-formatter-pretty'),
             emitErrors: true,
             fix: true,
@@ -261,16 +295,16 @@ const webpackConfig = {
     ],
     // eslint-disable-next-line unicorn/prevent-abbreviations
     devServer: {
-        headers: {'Access-Control-Allow-Origin': '*'},
+        headers: { 'Access-Control-Allow-Origin': '*' },
         https: true,
         disableHostCheck: true,
         publicPath: config.devUrl,
         compress: false,
         sockPort: 8080,
         overlay: true,
-        writeToDisk: filePath => {
+        writeToDisk: (filePath) => {
             return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);
-        },        
+        },
     },
 };
 
