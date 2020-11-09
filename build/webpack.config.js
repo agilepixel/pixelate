@@ -165,7 +165,7 @@ const webpackConfig = {
             {
                 test: /\.woff2?$/,
                 include: config.paths.assets,
-                loader: 'url',
+                loader: isDevelopmentServer ? 'file' : 'url',
                 options: {
                     limit: 10000,
                     mimetype: 'application/font-woff',
