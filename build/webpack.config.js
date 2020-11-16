@@ -103,11 +103,6 @@ const webpackConfig = {
                     {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
-                            implementation: require('sass'),
-                            sassOptions: { fiber: require('fibers') },
-                            hmr: isDevelopmentServer,
-                            reloadAll: true,
-                            sourceMap: config.enabled.sourceMaps,
                             publicPath: (resourcePath) => {
                                 if (isDevelopmentServer) {
                                     return `/${config.distPath}/`;
@@ -165,21 +160,13 @@ const webpackConfig = {
             {
                 test: /\.woff2?$/,
                 include: config.paths.assets,
-                loader: isDevelopmentServer ? 'file' : 'url',
+                loader: isDevelopmentServer ? 'file-loader' : 'url-loader',
                 options: {
                     limit: 10000,
                     mimetype: 'application/font-woff',
                     name: `fonts/${assetsFilenames}.[ext]`,
                     esModule: false,
                 },
-            },
-            {
-                test: /\.modernizrrc.js$/,
-                loader: 'modernizr',
-            },
-            {
-                test: /\.modernizrrc(\.json)?$/,
-                loader: 'modernizr!json',
             },
             {
                 test: /\.json$/,
@@ -215,7 +202,6 @@ const webpackConfig = {
         enforceExtension: false,
         alias: config.resolveAlias,
     },
-    resolveLoader: { moduleExtensions: ['-loader'] },
     externals: {
         window: 'window',
         jquery: 'jQuery',
@@ -224,7 +210,6 @@ const webpackConfig = {
     optimization: {
         minimizer: [
             new TerserPlugin({
-                cache: true,
                 parallel: true,
                 terserOptions: {
                     compress: { drop_console: config.env.production },
@@ -240,14 +225,11 @@ const webpackConfig = {
         new CleanWebpackPlugin({ verbose: false }),
         new MiniCssExtractPlugin({
             filename: `styles/${assetsFilenames}.css`,
-            allChunks: true,
-            disable: config.enabled.watcher,
         }),
         //new OptimizeCssAssetsPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
-            Modernizr: 'modernizr',
             'window.jQuery': 'jquery',
             Tether: 'tether',
             'window.Tether': 'tether',
