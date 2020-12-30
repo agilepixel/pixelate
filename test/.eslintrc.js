@@ -1,4 +1,4 @@
-/*! 🧮🧩 2020*/
+/*! Agile Pixel https://agilepixel.io - 2020*/
 module.exports = {
     root: true,
     extends: 'agilepixel',
@@ -35,9 +35,7 @@ module.exports = {
         polyfills: ['Promise', 'IntersectionObserver', 'fetch', 'Array.from'],
     },
     rules: {
-        'max-len': 'off',
-        'template-curly-spacing': 'off',
-        indent: 'off',
+        'max-len': 'off'
     },
 };
   

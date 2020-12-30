@@ -1,5 +1,4 @@
-/*! 🧮🧩 2020*/
-/* eslint "import/no-commonjs": "off" */
+/*! Agile Pixel https://agilepixel.io - 2020*/
 const path = require('path');
 const fs = require('fs');
 
@@ -14,7 +13,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 //const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const open = require('open');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -86,11 +85,19 @@ const webpackConfig = {
                 options: { fix: true },
             },
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: [
                     /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
                 ],
                 loader: 'babel-loader',
+                options: {},
+            },
+            {
+                test: /\.tsx?$/,
+                exclude: [
+                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+                ],
+                loader: 'ts-loader',
                 options: {},
             },
             {
@@ -248,7 +255,7 @@ const webpackConfig = {
             },
         }),
         new webpack.LoaderOptionsPlugin({
-            test: /\.js$/,
+            test: /\.jsx?$/,
             options: {
                 eslint: {
                     failOnWarning: false,
@@ -381,7 +388,7 @@ if (config.env.production) {
     webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin());
 }
 
-webpackConfig.plugins.push(new ManifestPlugin({
+webpackConfig.plugins.push(new WebpackManifestPlugin({
     publicPath,
     basePath: config.publicPath,
     fileName: config.manifestPath,

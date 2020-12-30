@@ -1,4 +1,4 @@
-/*! 🧮🧩 2020*/
+/*! Agile Pixel https://agilepixel.io - 2020*/
 
 const canuserIntersectionObserver = ('IntersectionObserver' in window &&
     'IntersectionObserverEntry' in window &&
