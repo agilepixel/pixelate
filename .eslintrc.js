@@ -1,4 +1,4 @@
-/*! Agile Pixel https://agilepixel.io - 2020*/
+/*! Agile Pixel https://agilepixel.io - 2021*/
 module.exports = {
     env: {
         commonjs: true,

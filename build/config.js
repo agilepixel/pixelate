@@ -1,4 +1,4 @@
-/*! Agile Pixel https://agilepixel.io - 2020*/
+/*! Agile Pixel https://agilepixel.io - 2021*/
 const path = require('path');
 
 const { argv } = require('yargs');

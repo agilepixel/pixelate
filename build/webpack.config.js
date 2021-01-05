@@ -1,4 +1,4 @@
-/*! Agile Pixel https://agilepixel.io - 2020*/
+/*! Agile Pixel https://agilepixel.io - 2021*/
 const path = require('path');
 const fs = require('fs');
 
@@ -25,7 +25,7 @@ const assetsFilenames = config.enabled.cacheBusting
 
 const profiler = process.argv.indexOf('--profile') !== -1;
 
-const isDevelopmentServer = process.argv[1].indexOf('webpack-dev-server') !== -1;
+const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
 const publicPath = isDevelopmentServer ? 'https://localhost:8080/' : config.publicPath;
 
 if (isDevelopmentServer){
@@ -229,7 +229,8 @@ const webpackConfig = {
             analyzerMode: profiler ? 'static' : 'disabled',
         }),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
-        new CleanWebpackPlugin({ verbose: false }),
+        new CleanWebpackPlugin({ verbose: false,
+            dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer }),
         new MiniCssExtractPlugin({
             filename: `styles/${assetsFilenames}.css`,
         }),
