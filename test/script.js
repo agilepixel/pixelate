@@ -1,4 +1,4 @@
-/*! 🧮🧩 2020*/
+/*! Agile Pixel https://agilepixel.io - 2021*/
 
 import './moduleloader';
 

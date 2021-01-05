@@ -1,4 +1,4 @@
-/*! 🧮🧩 2020*/
+/*! Agile Pixel https://agilepixel.io - 2021*/
 module.exports = {
     env: {
         commonjs: true,
@@ -17,7 +17,7 @@ module.exports = {
           "objectLiteralDuplicateProperties": false,
           "experimentalObjectRestSpread": true
         },
-        "ecmaVersion": 2017,
+        "ecmaVersion": 2018,
         "sourceType": "module",
         "allowImportExportEverywhere": true
     },
@@ -25,5 +25,7 @@ module.exports = {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
     },
-    parserOptions: { ecmaVersion: 2018 },
+    rules: {
+        'import/no-commonjs': 'off',
+    },
 };

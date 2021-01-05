@@ -1,5 +1,4 @@
-/*! 🧮🧩 2020*/
-/* eslint "import/no-commonjs": "off" */
+/*! Agile Pixel https://agilepixel.io - 2021*/
 const path = require('path');
 
 const { argv } = require('yargs');
@@ -10,7 +9,7 @@ const explorer = cosmiconfig.cosmiconfigSync('pixelate');
 
 const userConfig = explorer.search();
 
-const isProduction = !!((argv.env && argv.env.production) || argv.p);
+const isProduction = argv.mode === 'production';
 const rootPath =
 userConfig != undefined && userConfig.paths && userConfig.paths.root
     ? userConfig.paths.root

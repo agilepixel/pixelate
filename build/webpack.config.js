@@ -1,5 +1,4 @@
-/*! 🧮🧩 2020*/
-/* eslint "import/no-commonjs": "off" */
+/*! Agile Pixel https://agilepixel.io - 2021*/
 const path = require('path');
 const fs = require('fs');
 
@@ -14,7 +13,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 //const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const open = require('open');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -26,7 +25,7 @@ const assetsFilenames = config.enabled.cacheBusting
 
 const profiler = process.argv.indexOf('--profile') !== -1;
 
-const isDevelopmentServer = process.argv[1].indexOf('webpack-dev-server') !== -1;
+const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
 const publicPath = isDevelopmentServer ? 'https://localhost:8080/' : config.publicPath;
 
 if (isDevelopmentServer){
@@ -86,11 +85,19 @@ const webpackConfig = {
                 options: { fix: true },
             },
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: [
                     /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
                 ],
                 loader: 'babel-loader',
+                options: {},
+            },
+            {
+                test: /\.tsx?$/,
+                exclude: [
+                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+                ],
+                loader: 'ts-loader',
                 options: {},
             },
             {
@@ -103,11 +110,6 @@ const webpackConfig = {
                     {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
-                            implementation: require('sass'),
-                            sassOptions: { fiber: require('fibers') },
-                            hmr: isDevelopmentServer,
-                            reloadAll: true,
-                            sourceMap: config.enabled.sourceMaps,
                             publicPath: (resourcePath) => {
                                 if (isDevelopmentServer) {
                                     return `/${config.distPath}/`;
@@ -165,21 +167,13 @@ const webpackConfig = {
             {
                 test: /\.woff2?$/,
                 include: config.paths.assets,
-                loader: isDevelopmentServer ? 'file' : 'url',
+                loader: isDevelopmentServer ? 'file-loader' : 'url-loader',
                 options: {
                     limit: 10000,
                     mimetype: 'application/font-woff',
                     name: `fonts/${assetsFilenames}.[ext]`,
                     esModule: false,
                 },
-            },
-            {
-                test: /\.modernizrrc.js$/,
-                loader: 'modernizr',
-            },
-            {
-                test: /\.modernizrrc(\.json)?$/,
-                loader: 'modernizr!json',
             },
             {
                 test: /\.json$/,
@@ -215,7 +209,6 @@ const webpackConfig = {
         enforceExtension: false,
         alias: config.resolveAlias,
     },
-    resolveLoader: { moduleExtensions: ['-loader'] },
     externals: {
         window: 'window',
         jquery: 'jQuery',
@@ -224,7 +217,6 @@ const webpackConfig = {
     optimization: {
         minimizer: [
             new TerserPlugin({
-                cache: true,
                 parallel: true,
                 terserOptions: {
                     compress: { drop_console: config.env.production },
@@ -237,17 +229,15 @@ const webpackConfig = {
             analyzerMode: profiler ? 'static' : 'disabled',
         }),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
-        new CleanWebpackPlugin({ verbose: false }),
+        new CleanWebpackPlugin({ verbose: false,
+            dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer }),
         new MiniCssExtractPlugin({
             filename: `styles/${assetsFilenames}.css`,
-            allChunks: true,
-            disable: config.enabled.watcher,
         }),
         //new OptimizeCssAssetsPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
-            Modernizr: 'modernizr',
             'window.jQuery': 'jquery',
             Tether: 'tether',
             'window.Tether': 'tether',
@@ -266,7 +256,7 @@ const webpackConfig = {
             },
         }),
         new webpack.LoaderOptionsPlugin({
-            test: /\.js$/,
+            test: /\.jsx?$/,
             options: {
                 eslint: {
                     failOnWarning: false,
@@ -399,7 +389,7 @@ if (config.env.production) {
     webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin());
 }
 
-webpackConfig.plugins.push(new ManifestPlugin({
+webpackConfig.plugins.push(new WebpackManifestPlugin({
     publicPath,
     basePath: config.publicPath,
     fileName: config.manifestPath,

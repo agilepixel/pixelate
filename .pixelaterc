@@ -4,6 +4,15 @@
       "./test/script.js",
       "./test/style.scss"
     ],
+    "react": [
+      "./test/test-react.jsx",
+    ],
+    "typescript": [
+      "./test/ts/vanilla.ts",
+    ],
+    "typescript-react": [
+      "./test/ts/react.tsx",
+    ],
   },
   "htmlOutput": "",
   "publicPath": "/pixelate",
