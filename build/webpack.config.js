@@ -24,7 +24,7 @@ const assetsFilenames = config.enabled.cacheBusting ? config.cacheBusting : '[na
 const profiler = process.argv.indexOf('--profile') !== -1;
 
 const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
-const publicPath = isDevelopmentServer ? `https://localhost:/${config.devServerPort}` : config.publicPath;
+const publicPath = isDevelopmentServer ? `https://localhost:${config.devServerPort}` : config.publicPath;
 
 if (isDevelopmentServer) {
   open(config.devUrl, { url: true });
