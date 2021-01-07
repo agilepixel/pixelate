@@ -24,7 +24,7 @@ const assetsFilenames = config.enabled.cacheBusting ? config.cacheBusting : '[na
 const profiler = process.argv.indexOf('--profile') !== -1;
 
 const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
-const publicPath = isDevelopmentServer ? 'https://localhost:8080/' : config.publicPath;
+const publicPath = isDevelopmentServer ? `https://localhost:/${config.devServerPort}` : config.publicPath;
 
 if (isDevelopmentServer) {
   open(config.devUrl, { url: true });
@@ -275,7 +275,7 @@ const webpackConfig = {
     disableHostCheck: true,
     publicPath: config.devUrl,
     compress: false,
-    sockPort: 8080,
+    sockPort: config.devServerPort,
     overlay: true,
     writeToDisk: (filePath) => {
       return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);

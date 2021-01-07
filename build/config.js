@@ -26,6 +26,7 @@ const relativeRootPath = userConfig != undefined && userConfig.config && userCon
 const config = merge({
     open: true,
     copy: [],
+    devServerPort: 8080,
     proxyUrl: 'http://localhost:8080',
     cacheBusting: '[name]_[hash]',
     paths: {
