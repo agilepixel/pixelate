@@ -1,4 +1,4 @@
-/*! Agile Pixel https://agilepixel.io - 2020*/
+/*! Agile Pixel https://agilepixel.io - 2021*/
 
 const canuserIntersectionObserver = ('IntersectionObserver' in window &&
     'IntersectionObserverEntry' in window &&
@@ -18,14 +18,14 @@ const triggerModuleLoad = function(element){
     });
 };
 const io = !canuserIntersectionObserver ? false : new IntersectionObserver(function(entries) {
-    entries.forEach(function(entriesRecord) {
+    for (const entriesRecord of entries) {
         const element = entriesRecord.target;
         const visible = entriesRecord.intersectionRatio !== 0;
         if (visible){
             triggerModuleLoad(element);
             io.unobserve(element);
         }
-    });
+    }
 });
 const external = function(){
     throw new Error('external?');
