@@ -28,7 +28,7 @@ const config = merge({
     copy: [],
     devServerPort: 8080,
     proxyUrl: 'http://localhost:8080',
-    cacheBusting: '[name]_[hash]',
+    cacheBusting: '[name]_[fullhash]',
     paths: {
         root: rootPath,
         modernizr: path.join(rootPath, '.modernizrrc'),
