@@ -294,7 +294,8 @@ const walk = function (directory, extension) {
   let results = [];
   const list = fs.readdirSync(directory);
 
-  for (const file of list) {
+  // eslint-disable-next-line unicorn/no-array-for-each
+  list.forEach((file) => {
     file = `${directory}/${file}`;
     const stat = fs.statSync(file);
     if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
@@ -304,7 +305,7 @@ const walk = function (directory, extension) {
       /* Is a file */
       results.push(file);
     }
-  }
+  });
   return results;
 };
 
