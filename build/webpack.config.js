@@ -49,6 +49,7 @@ for (const entryKey of entryKeys) {
 const webpackConfig = {
   context: config.paths.assets,
   entry: config.entry,
+  target: isDevelopmentServer ? 'web' : 'browserslist',
   devtool: config.enabled.sourceMaps ? 'source-map' : false,
   output: {
     path: config.paths.dist,
