@@ -1,7 +1,6 @@
-/*! Agile Pixel https://agilepixel.io - 2020*/
+/*! Agile Pixel https://agilepixel.io - 2021*/
 module.exports = {
     root: true,
-    extends: 'agilepixel',
     globals: { wp: true },
     env: {
         node: true,
@@ -11,8 +10,7 @@ module.exports = {
         jquery: true,
     },
     parser: 'vue-eslint-parser',
-    extends: ['agilepixel', 'prettier', 'prettier/vue',
-    'prettier/unicorn'],
+    extends: ['agilepixel', 'prettier'],
     'parserOptions': {
         'parser': 'babel-eslint',
         'ecmaFeatures': {

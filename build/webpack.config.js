@@ -27,7 +27,7 @@ const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
 const publicPath = isDevelopmentServer ? `https://localhost:${config.devServerPort}/` : config.publicPath;
 
 if (isDevelopmentServer) {
-  open(config.devUrl, { url: true });
+  open(config.devUrl);
 }
 
 const entryKeys = Object.keys(config.entry);
@@ -176,7 +176,7 @@ const webpackConfig = {
           {
             use: {
               loader: 'pug-loader',
-              options: { pretty: !config.env.production },
+              options: { self: true, pretty: !config.env.production },
             },
           },
         ],
@@ -301,7 +301,7 @@ const walk = function (directory, extension) {
     const stat = fs.statSync(file);
     if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
       /* Recurse into a subdirectory */
-      results = results.concat(walk(file, extension));
+      results = [...results, ...walk(file, extension)];
     } else if (stat && !stat.isDirectory() && path.extname(file) === extension && path.basename(file).indexOf('_') !== 0) {
       /* Is a file */
       results.push(file);
@@ -349,6 +349,7 @@ if (typeof config.pugDir != 'undefined') {
     webpackConfig.plugins.push(
       new HtmlWebpackPlugin({
         filename,
+        environment: process.env.NODE_ENV,
         template: path.resolve(file),
         hash: false,
         showErrors: true,

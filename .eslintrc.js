@@ -7,8 +7,7 @@ module.exports = {
     },
     root: true,
     parser: "vue-eslint-parser",
-    extends: ['agilepixel', 'prettier', "prettier/vue",
-    "prettier/unicorn"],
+    extends: ['agilepixel', 'prettier'],
     "parserOptions": {
         "parser": "babel-eslint",
         "ecmaFeatures": {
