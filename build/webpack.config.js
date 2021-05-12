@@ -163,10 +163,6 @@ const webpackConfig = {
         },
       },
       {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
-      {
         test: /\.pug$/,
         oneOf: [
           {
