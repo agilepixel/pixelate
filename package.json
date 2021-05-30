@@ -1,6 +1,6 @@
 {
   "name": "@agilepixel/pixelate",
-  "version": "0.19.2",
+  "version": "0.19.3",
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {
@@ -72,7 +72,7 @@
     "typescript": "^4.3.2",
     "url-loader": "^4.1.1",
     "vue-eslint-parser": "^7.6.0",
-    "vue-loader": "^16.2.0",
+    "vue-loader": "^15.9.7",
     "vue-template-compiler": "^2.6.12",
     "webpack": "^5.38.1",
     "webpack-bundle-analyzer": "^4.4.2",
