@@ -77,21 +77,62 @@ const webpackConfig = {
         enforce: 'pre',
         test: /\.(js|vue)?$/,
         include: config.paths.assets,
-        exclude: [/(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/],
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
         loader: 'eslint-loader',
         options: { fix: true },
       },
       {
-        test: /\.jsx?$/,
-        exclude: [/(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/],
-        loader: 'babel-loader',
-        options: {},
+        test: /\.js$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
+        loader: isDevelopmentServer ? 'babel-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              target: 'es2015', // Syntax to compile to (see options below for possible values)
+            },
       },
       {
-        test: /\.tsx?$/,
-        exclude: [/(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/],
-        loader: 'ts-loader',
-        options: {},
+        test: /\.jsx$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
+        loader: isDevelopmentServer ? 'babel-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              loader: 'jsx', // Remove this if you're not using JSX
+              target: 'es2015', // Syntax to compile to (see options below for possible values)
+            },
+      },
+      {
+        test: /\.ts$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
+        loader: isDevelopmentServer ? 'ts-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              loader: 'ts',
+              target: 'es2015',
+            },
+      },
+      {
+        test: /\.tsx$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
+        loader: isDevelopmentServer ? 'ts-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              loader: 'tsx',
+              target: 'es2015',
+            },
       },
       {
         test: /\.vue$/,
@@ -108,7 +149,13 @@ const webpackConfig = {
                   return `/${config.distPath}/`;
                 }
                 if (/^\.\//.test(config.publicPath)) {
-                  return path.join(path.relative(path.dirname(resourcePath), config.paths.relative), config.publicPath);
+                  return path.join(
+                    path.relative(
+                      path.dirname(resourcePath),
+                      config.paths.relative
+                    ),
+                    config.publicPath
+                  );
                 }
                 return config.publicPath;
               },
@@ -209,13 +256,17 @@ const webpackConfig = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      __TIMESTAMP__: Date.now()
+      __TIMESTAMP__: Date.now(),
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: profiler ? 'static' : 'disabled',
     }),
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
-    new CleanWebpackPlugin({ dry: isDevelopmentServer, verbose: isDevelopmentServer, dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer }),
+    new CleanWebpackPlugin({
+      dry: isDevelopmentServer,
+      verbose: isDevelopmentServer,
+      dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer,
+    }),
     new MiniCssExtractPlugin({
       filename: `styles/${assetsFilenames}.css`,
     }),
