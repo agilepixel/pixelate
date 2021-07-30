@@ -183,31 +183,17 @@ const webpackConfig = {
       {
         test: /\.(png|jpe?g|gif|svg|mp4|ogv|webp)$/,
         include: config.paths.assets,
-        loader: 'file-loader',
-        options: {
-          name: `images/${assetsFilenames}.[ext]`,
-          esModule: false,
-        },
+        type: 'asset/resource',
       },
       {
         test: /\.(ttf|eot)$/,
         include: config.paths.assets,
-        loader: 'file-loader',
-        options: {
-          name: `fonts/${assetsFilenames}.[ext]`,
-          esModule: false,
-        },
+        type: 'asset/resource',
       },
       {
         test: /\.woff2?$/,
         include: config.paths.assets,
-        loader: isDevelopmentServer ? 'file-loader' : 'url-loader',
-        options: {
-          limit: 10000,
-          mimetype: 'application/font-woff',
-          name: `fonts/${assetsFilenames}.[ext]`,
-          esModule: false,
-        },
+        type: isDevelopmentServer ? 'asset/resource' : 'asset',
       },
       {
         test: /\.pug$/,

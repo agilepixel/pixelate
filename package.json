@@ -1,6 +1,6 @@
 {
   "name": "@agilepixel/pixelate",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {
@@ -46,9 +46,8 @@
     "eslint": "^7.31.0",
     "eslint-config-agilepixel": "^0.15.0",
     "eslint-loader": "^4.0.0",
-    "eslint-plugin-vue": "^7.14.0",
+    "eslint-plugin-vue": "^7.15.0",
     "fibers": "^5.0.0",
-    "file-loader": "^6.2.0",
     "html-webpack-harddisk-plugin": "^2.0.0",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.1.0",
@@ -71,14 +70,13 @@
     "twig": "^1.15.4",
     "twig-loader": "^0.5.5",
     "typescript": "^4.3.5",
-    "url-loader": "^4.1.1",
-    "vue-eslint-parser": "^7.9.0",
-    "vue-loader": "^15.9.6",
+    "vue-eslint-parser": "^7.10.0",
+    "vue-loader": "^15.9.7",
     "vue-template-compiler": "^2.6.14",
-    "webpack": "^5.46.0",
+    "webpack": "^5.47.1",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-dev-server": "^3.11.2",
-    "webpack-manifest-plugin": "~3.1.0",
+    "webpack-manifest-plugin": "~4.0.0",
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {

@@ -22,5 +22,6 @@
   "copy": [{
     "from": "./test/images/*",
     "to": "./public/dist/images/"
-  }] 
+  },
+  ] 
 }
