@@ -309,13 +309,19 @@ const webpackConfig = {
   devServer: {
     headers: { 'Access-Control-Allow-Origin': '*' },
     https: true,
-    disableHostCheck: true,
-    publicPath: config.devUrl,
+    allowedHosts: 'all',
+    static: {
+      publicPath: config.devUrl,
+    },
     compress: false,
-    sockPort: config.devServerPort,
-    overlay: true,
-    writeToDisk: (filePath) => {
-      return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);
+    port: config.devServerPort,
+    client: {
+      overlay: true,
+    },
+    devMiddleware: {
+      writeToDisk: (filePath) => {
+        return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);
+      },
     },
   },
 };
