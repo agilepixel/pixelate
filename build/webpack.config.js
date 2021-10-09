@@ -315,6 +315,7 @@ const webpackConfig = {
       publicPath: config.devUrl,
     },
     compress: false,
+    host: 'localhost',
     port: config.devServerPort,
     client: {
       overlay: true,
