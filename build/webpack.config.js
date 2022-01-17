@@ -1,4 +1,4 @@
-/*! Agile Pixel https://agilepixel.io - 2021*/
+/*! Agile Pixel https://agilepixel.io - 2022*/
 const path = require('path');
 const fs = require('fs');
 
@@ -19,12 +19,16 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = require('./config');
 
-const assetsFilenames = config.enabled.cacheBusting ? config.cacheBusting : '[name]';
+const assetsFilenames = config.enabled.cacheBusting
+  ? config.cacheBusting
+  : '[name]';
 
 const profiler = process.argv.indexOf('--profile') !== -1;
 
 const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
-const publicPath = isDevelopmentServer ? `https://localhost:${config.devServerPort}/` : config.publicPath;
+const publicPath = isDevelopmentServer
+  ? `https://localhost:${config.devServerPort}/`
+  : config.publicPath;
 
 if (isDevelopmentServer) {
   open(config.devUrl);
@@ -289,7 +293,7 @@ const webpackConfig = {
     }),
     new StyleLintPlugin({
       failOnError: !config.enabled.watcher,
-      syntax: 'scss',
+      customSyntax: require('postcss-scss'),
       files: validStylelintDirectories,
       formatter: require('stylelint-formatter-pretty'),
       emitErrors: true,
@@ -343,7 +347,12 @@ const walk = function (directory, extension) {
     if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
       /* Recurse into a subdirectory */
       results = [...results, ...walk(file, extension)];
-    } else if (stat && !stat.isDirectory() && path.extname(file) === extension && path.basename(file).indexOf('_') !== 0) {
+    } else if (
+      stat &&
+      !stat.isDirectory() &&
+      path.extname(file) === extension &&
+      path.basename(file).indexOf('_') !== 0
+    ) {
       /* Is a file */
       results.push(file);
     }
@@ -360,10 +369,18 @@ if (typeof config.twigDir != 'undefined') {
   twigFiles.map((file) => {
     staticCount++;
     const basedir = config.htmlOutput;
-    const filename = config.htmlOutput + file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html');
+    const filename =
+      config.htmlOutput +
+      file
+        .replace(`${config.twigDir}/`, '')
+        .replace(config.twigDir, '')
+        .replace('.twig', '.html');
     const directories = path.relative(basedir, filename).split(path.sep);
     const parentPath = '../';
-    const base = directories.length > 1 ? parentPath.repeat(directories.length - 1) : false;
+    const base =
+      directories.length > 1
+        ? parentPath.repeat(directories.length - 1)
+        : false;
     webpackConfig.plugins.push(
       new HtmlWebpackPlugin({
         filename,
@@ -383,10 +400,18 @@ if (typeof config.pugDir != 'undefined') {
   pugFiles.map((file) => {
     staticCount++;
     const basedir = config.htmlOutput;
-    const filename = config.htmlOutput + file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html');
+    const filename =
+      config.htmlOutput +
+      file
+        .replace(`${config.pugDir}/`, '')
+        .replace(config.pugDir, '')
+        .replace('.pug', '.html');
     const directories = path.relative(basedir, filename).split(path.sep);
     const parentPath = '../';
-    const base = directories.length > 1 ? parentPath.repeat(directories.length - 1) : false;
+    const base =
+      directories.length > 1
+        ? parentPath.repeat(directories.length - 1)
+        : false;
     webpackConfig.plugins.push(
       new HtmlWebpackPlugin({
         filename,
