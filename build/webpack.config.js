@@ -15,16 +15,21 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const open = require('open');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = require('./config');
 
-const assetsFilenames = config.enabled.cacheBusting ? config.cacheBusting : '[name]';
+const assetsFilenames = config.enabled.cacheBusting
+  ? config.cacheBusting
+  : '[name]';
 
 const profiler = process.argv.indexOf('--profile') !== -1;
 
 const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
-const publicPath = isDevelopmentServer ? `https://localhost:${config.devServerPort}/` : config.publicPath;
+const publicPath = isDevelopmentServer
+  ? `https://localhost:${config.devServerPort}/`
+  : config.publicPath;
 
 if (isDevelopmentServer) {
   open(config.devUrl);
@@ -73,16 +78,6 @@ const webpackConfig = {
   },
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.(js|vue)?$/,
-        include: config.paths.assets,
-        exclude: [
-          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
-        ],
-        loader: 'eslint-loader',
-        options: { fix: true },
-      },
       {
         test: /\.js$/,
         exclude: [
@@ -253,6 +248,11 @@ const webpackConfig = {
       dry: isDevelopmentServer,
       verbose: isDevelopmentServer,
       dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer,
+    }),
+    new ESLintPlugin({
+      extensions: ['js', 'jsx', 'vue'],
+      exclude: ['node_modules', 'bower_components'],
+      fix: true,
     }),
     new MiniCssExtractPlugin({
       filename: `styles/${assetsFilenames}.css`,
