@@ -16,7 +16,7 @@ const open = require('open');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 const config = require('./config');
 
