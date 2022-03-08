@@ -19,6 +19,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     allowImportExportEverywhere: true,
+    requireConfigFile: false,
   },
   globals: {
     Atomics: 'readonly',

@@ -220,6 +220,7 @@ const webpackConfig = {
     modules: [config.paths.assets, 'node_modules', 'bower_components'],
     enforceExtension: false,
     alias: config.resolveAlias,
+    extensions: ['.jsx', '.ts', '.tsx', '...'],
   },
   externals: {
     window: 'window',
