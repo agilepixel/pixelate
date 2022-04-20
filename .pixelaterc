@@ -5,23 +5,24 @@
       "./test/style.scss"
     ],
     "react": [
-      "./test/test-react.jsx",
+      "./test/test-react.jsx"
     ],
     "typescript": [
-      "./test/ts/vanilla.ts",
+      "./test/ts/vanilla.ts"
     ],
     "typescript-react": [
-      "./test/ts/react.tsx",
-    ],
+      "./test/ts/react.tsx"
+    ]
   },
   "htmlOutput": "",
-  "publicPath": "/pixelate",
-  "devUrl": "http://localhost/pixelate/dist",
-  "pugDir" : "./test/templates",
+  "publicPath": "/",
+  "devUrl": "http://agilepixel.pixelate.localhost",
+  "pugDir": "./test/templates",
   "distPath": "dist",
-  "copy": [{
-    "from": "./test/images/*",
-    "to": "./public/dist/images/"
-  },
+  "copy": [
+    {
+      "from": "./test/images/*",
+      "to": "./public/dist/images/"
+    }
   ]
 }

@@ -319,7 +319,10 @@ const webpackConfig = {
     host: 'localhost',
     port: config.devServerPort,
     client: {
-      overlay: true,
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
     },
     devMiddleware: {
       writeToDisk: (filePath) => {

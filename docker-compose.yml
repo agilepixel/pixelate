@@ -1,0 +1,20 @@
+version: '3.6'
+services:
+  webserver:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    labels:
+      caddy: agilepixel.pixelate.localhost
+      caddy.reverse_proxy: "{{upstreams}}"
+    networks:
+      - app-network
+      - caddy
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+  caddy:
+    external: true
