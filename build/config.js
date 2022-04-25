@@ -23,35 +23,37 @@ const relativeRootPath = userConfig != undefined && userConfig.config && userCon
     ? userConfig.config.relativeRoot
     : '';
     
-const config = merge({
+const config = merge(
+  {
     open: true,
     copy: [],
     devServerPort: 8080,
     proxyUrl: 'http://localhost:8080',
-    cacheBusting: '[name]_[fullhash]',
+    cacheBusting: '[name]_[contenthash]',
     paths: {
-        root: rootPath,
-        modernizr: path.join(rootPath, '.modernizrrc'),
-        assets: path.join(rootPath, ''),
-        dist: path.join(rootPath, distPath),
-        relative: path.join(rootPath, relativeRootPath),
+      root: rootPath,
+      modernizr: path.join(rootPath, '.modernizrrc'),
+      assets: path.join(rootPath, ''),
+      dist: path.join(rootPath, distPath),
+      relative: path.join(rootPath, relativeRootPath),
     },
     enabled: {
-        sourceMaps: !isProduction,
-        optimize: isProduction,
-        cacheBusting: isProduction,
-        watcher: !!argv.watch,
+      sourceMaps: !isProduction,
+      optimize: isProduction,
+      cacheBusting: isProduction,
+      watcher: !!argv.watch,
     },
     resolveAlias: {
-        modernizr: path.join(rootPath, '.modernizrrc'),
-        vue$: 'vue/dist/vue.esm.js',
-        masonry: 'masonry-layout',
-        isotope: 'isotope-layout',
+      modernizr: path.join(rootPath, '.modernizrrc'),
+      vue$: 'vue/dist/vue.esm.js',
+      masonry: 'masonry-layout',
+      isotope: 'isotope-layout',
     },
     watch: [],
     manifestPath: 'assets.json',
-},
-userConfig.config);
+  },
+  userConfig.config
+);
 
 module.exports = merge(config, {
     env: Object.assign({

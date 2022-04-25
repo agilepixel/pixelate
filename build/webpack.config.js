@@ -17,6 +17,7 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 
 const config = require('./config');
 
@@ -60,6 +61,7 @@ const webpackConfig = {
     path: config.paths.dist,
     publicPath,
     filename: `scripts/${assetsFilenames}.js`,
+    crossOriginLoading: 'anonymous',
   },
   stats: {
     hash: false,
@@ -236,6 +238,7 @@ const webpackConfig = {
         },
       }),
     ],
+    realContentHash: true,
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -347,7 +350,12 @@ const walk = function (directory, extension) {
     if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
       /* Recurse into a subdirectory */
       results = [...results, ...walk(file, extension)];
-    } else if (stat && !stat.isDirectory() && path.extname(file) === extension && path.basename(file).indexOf('_') !== 0) {
+    } else if (
+      stat &&
+      !stat.isDirectory() &&
+      path.extname(file) === extension &&
+      path.basename(file).indexOf('_') !== 0
+    ) {
       /* Is a file */
       results.push(file);
     }
@@ -364,10 +372,18 @@ if (typeof config.twigDir != 'undefined') {
   twigFiles.map((file) => {
     staticCount++;
     const basedir = config.htmlOutput;
-    const filename = config.htmlOutput + file.replace(`${config.twigDir}/`, '').replace(config.twigDir, '').replace('.twig', '.html');
+    const filename =
+      config.htmlOutput +
+      file
+        .replace(`${config.twigDir}/`, '')
+        .replace(config.twigDir, '')
+        .replace('.twig', '.html');
     const directories = path.relative(basedir, filename).split(path.sep);
     const parentPath = '../';
-    const base = directories.length > 1 ? parentPath.repeat(directories.length - 1) : false;
+    const base =
+      directories.length > 1
+        ? parentPath.repeat(directories.length - 1)
+        : false;
     webpackConfig.plugins.push(
       new HtmlWebpackPlugin({
         filename,
@@ -387,10 +403,18 @@ if (typeof config.pugDir != 'undefined') {
   pugFiles.map((file) => {
     staticCount++;
     const basedir = config.htmlOutput;
-    const filename = config.htmlOutput + file.replace(`${config.pugDir}/`, '').replace(config.pugDir, '').replace('.pug', '.html');
+    const filename =
+      config.htmlOutput +
+      file
+        .replace(`${config.pugDir}/`, '')
+        .replace(config.pugDir, '')
+        .replace('.pug', '.html');
     const directories = path.relative(basedir, filename).split(path.sep);
     const parentPath = '../';
-    const base = directories.length > 1 ? parentPath.repeat(directories.length - 1) : false;
+    const base =
+      directories.length > 1
+        ? parentPath.repeat(directories.length - 1)
+        : false;
     webpackConfig.plugins.push(
       new HtmlWebpackPlugin({
         filename,
@@ -415,6 +439,10 @@ if (typeof config.staticHtml != 'undefined' && config.staticHtml.length > 0) {
 
 if (staticCount > 0 && isDevelopmentServer) {
   webpackConfig.plugins.push(new HtmlWebpackHarddiskPlugin());
+}
+
+if (!isDevelopmentServer) {
+  webpackConfig.plugins.push(new SubresourceIntegrityPlugin());
 }
 
 /* eslint-disable global-require */
