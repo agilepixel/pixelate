@@ -1,0 +1,97 @@
+/**
+  *   #VARIABLES
+  */
+
+:root {
+  --vh: (1);
+  --bodyOpacity: 0;
+
+  --fontFamilyOpenSans: 'Open Sans', Arial, 'Helvetica Neue', Helvetica,
+    sans-serif;
+  --fontFamilyPlayfair: 'Playfair Display', TimesNewRoman, 'Times New Roman',
+    Times, Baskerville, Georgia, serif;
+
+  --borderRadiusDefault: 15px;
+
+  /**
+  *   #SPACe
+  */
+
+  --spaceBase: 12em;
+  --spaceHalf: 6em;
+  --spaceOne: 16em;
+  --spaceTwo: 32em;
+  --spaceDouble: 24em;
+  --spaceTriple: 36em;
+  --spaceQuad: 48em;
+  --spaceGrid: 20em;
+  --spaceGridNegative: -20em;
+  --spaceSmall: 12em;
+  --spaceMedium: 16em;
+  --spaceLarge: 18em;
+  --spaceXLarge: 20em;
+  --spaceXXLarge: 24em;
+  --spaceXXXLarge: 30em;
+  --spaceSection: 60em;
+  --spaceGutter: 30em;
+  
+
+  /**
+  *   #DEPTH
+  */
+
+  --depthBase: 1;
+  --depthBehind: -1;
+  --depthZero: 0;
+  --depthAbove: 10;
+  --depthHigh: 15;
+  --depthHigher: 20;
+  --depthHighest: 100;
+  --depthAboveAll: 150;
+  --depthAboveNav: 200;
+  --depthAboveModal: 250;
+
+  /**
+  *   #SIZES
+  */
+
+  --fontSizeBase: 16em;
+  --fontSizeDefault: 16em;
+  --fontSizeButton: 20em;
+  --fontSizeH1: 24em;
+  --fontSizeH2: 24em;
+  --fontSizeH3: 20em;
+  --fontSizeH4: 16em;
+  --fontSizeH5: 16em;
+  --fontSizeH6: 16em;
+  --fontSizeNav: 18em;
+  --fontSizeButton: 18em;
+  --fontSizeSmallest: 12em;
+  --fontSizeSmall: 14em;
+  --fontSizeNormal: 16em;
+  --fontSizeMedium: 17em;
+  --fontSizeLarge: 18em;
+  --fontSizeXLarge: 19em;
+  --fontSizeXXLarge: 20em;
+  --fontSizeXXXLarge: 40em;
+
+  /**
+  *   #COLOURS
+  */
+
+  --colourBase: #070605;
+  --colourDark: #000000;
+  --colourLight: #ffffff;
+  --colourBackground: #070605;
+  --colourContent: #070605;
+  --colourDisabled: #999999;
+  --colourLink: #ebc864;
+  --colourHover: #ebc864;
+  --colourActive: #ebc864;
+  --colourVisited: #ebc864;
+  --colourErrorBackground: #ff7474;
+  --colourErrorText: #9a1e2e;
+  --colourContentBackground: rgba(235, 200, 100, .2);
+
+  --colourBrand: #ebc864;
+}

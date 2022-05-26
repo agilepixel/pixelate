@@ -1,0 +1,14 @@
+/**
+  *   #FONTS
+  */
+
+$sansSerif: 'Open Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+$serif: 'Playfair Display', TimesNewRoman, 'Times New Roman', Times, Baskerville,
+  Georgia, serif;
+
+$fontDefaults: (
+  weight: 300,
+  line-height: 1,
+  sansSerif: $sansSerif,
+  serif: $serif,
+);

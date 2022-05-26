@@ -1,0 +1,60 @@
+///* ========================================================================
+//   #GLOBAL
+//   ======================================================================== */
+
+// The global settings file contains any project-wide variables; things that
+// need to be made available to the entire codebase.
+
+// Standardise some UI treatments.
+
+$input: (
+  border: 1px solid var(--colourLight),
+  textColour: var(--colourDark),
+  background: var(--colourLight),
+  padding: 7px var(--spaceBase),
+  margin: 0,
+  font-size: var(--fontSizeInput),
+);
+
+/**
+  *   #DEFAULT VARIABLES
+  */
+$wrapper: (
+  maxWidth: 1330px,
+  width: 90%,
+);
+
+$burger: (
+  width: 28px,
+  height: 3px,
+  gutter: 4px,
+  colour: (
+    var(--colourBrand),
+  ),
+  borderRadius: 3px,
+  transitionDuration: .3s,
+);
+
+/**
+  *   #RATIOS
+  */
+
+$inuit-ratios: (
+  '16\\:9': (
+    16: 9,
+  ),
+  '9\\:16': (
+    9: 16,
+  ),
+);
+
+/**
+  *   #INPUT TYPES
+  */
+
+$inputTypes: 'color', 'date', 'datetime', 'datetime-local', 'email', 'file',
+  'hidden', 'image', 'month', 'number', 'password', 'range', 'search', 'tel',
+  'text', 'time', 'url', 'week';
+
+$spacing: Half, Base, One, Two, Double, Triple, Quad, Small, Medium, Large,
+  XLarge;

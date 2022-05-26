@@ -1,4 +1,13 @@
+@use 'bootstrap';
+
+@import 'settings/settings.fonts';
+@import 'settings/settings.global';
+@import 'settings/settings.responsive';
+
 @import '~normalize.css';
+
+
+@import '~@agilepixel/poise';
 
 body {
     background: red;
@@ -6,3 +15,9 @@ body {
 }
 
 @import '_trumps/_fonts';
+
+
+
+li {
+  @include bootstrap.list-reset;
+}

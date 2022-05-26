@@ -1,0 +1,44 @@
+/**
+  *   #RESPONSIVE
+  */
+
+$breakpoint-separator: \@;
+
+/**
+  *   #GRID
+  */
+
+$gridBreakpoints: (
+  tablet: tablet,
+  tabletPortrait: tabletPortrait,
+  desktop: desktop,
+  wide: wide,
+  mobile: mobile,
+);
+
+/**
+  *   #COLUMN SIZES
+  */
+
+$columnSizes: 25, 33.33334, 50, 100;
+
+/**
+  *   #NUMBER OF COLUMNS
+  */
+
+$columnNumber: 1, 2, 3, 4;
+
+/**
+  *   #SASS MQ SETTINGS
+  */
+
+$mq-responsive: true;
+/* $mq-show-breakpoints: (mobile, tabletPortrait, tablet, desktop, wide); */
+
+$mq-breakpoints: (
+  mobile: 480px,
+  tabletPortrait: 835px,
+  tablet: 1024px,
+  desktop: 1340px,
+  wide: 1800px,
+);
