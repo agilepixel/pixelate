@@ -19,10 +19,12 @@
   "devUrl": "http://agilepixel.pixelate.localhost",
   "pugDir": "./test/templates",
   "distPath": "dist",
+  "noCleaning": false,
+  "flatten": false,
   "copy": [
     {
       "from": "./test/images/*",
-      "to": "./public/dist/images/"
+      "to": "[name]_[contenthash][ext]"
     }
   ]
 }

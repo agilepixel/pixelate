@@ -60,7 +60,9 @@ const webpackConfig = {
   output: {
     path: config.paths.dist,
     publicPath,
-    filename: `scripts/${assetsFilenames}.js`,
+    filename: config.flatten
+      ? `${assetsFilenames}.js`
+      : `scripts/${assetsFilenames}.js`,
     crossOriginLoading: 'anonymous',
   },
   stats: {
@@ -91,6 +93,9 @@ const webpackConfig = {
           : {
               target: 'es2015', // Syntax to compile to (see options below for possible values)
             },
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.jsx$/,
@@ -104,6 +109,9 @@ const webpackConfig = {
               loader: 'jsx', // Remove this if you're not using JSX
               target: 'es2015', // Syntax to compile to (see options below for possible values)
             },
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.ts$/,
@@ -117,6 +125,9 @@ const webpackConfig = {
               loader: 'ts',
               target: 'es2015',
             },
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.tsx$/,
@@ -130,10 +141,16 @@ const webpackConfig = {
               loader: 'tsx',
               target: 'es2015',
             },
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.s?[ac]ss$/,
@@ -142,6 +159,7 @@ const webpackConfig = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: (resourcePath) => {
+                return '/';
                 if (isDevelopmentServer) {
                   return '/';
                   //return `/${config.distPath}/`;
@@ -182,16 +200,25 @@ const webpackConfig = {
         test: /\.(png|jpe?g|gif|svg|mp4|ogv|webp)$/,
         include: config.paths.assets,
         type: 'asset/resource',
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.(ttf|eot)$/,
         include: config.paths.assets,
         type: 'asset/resource',
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.woff2?$/,
         include: config.paths.assets,
         type: isDevelopmentServer ? 'asset/resource' : 'asset',
+        generator: {
+          //outputPath: '',
+        },
       },
       {
         test: /\.pug$/,
@@ -249,7 +276,7 @@ const webpackConfig = {
     }),
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
     new CleanWebpackPlugin({
-      dry: isDevelopmentServer,
+      dry: config.noCleaning || isDevelopmentServer,
       verbose: isDevelopmentServer,
       dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer,
     }),
@@ -259,7 +286,9 @@ const webpackConfig = {
       fix: true,
     }),
     new MiniCssExtractPlugin({
-      filename: `styles/${assetsFilenames}.css`,
+      filename: config.flatten
+        ? `${assetsFilenames}.css`
+        : `styles/${assetsFilenames}.css`,
     }),
     //new OptimizeCssAssetsPlugin(),
     new webpack.ProvidePlugin({
@@ -384,6 +413,7 @@ if (typeof config.twigDir != 'undefined') {
       directories.length > 1
         ? parentPath.repeat(directories.length - 1)
         : false;
+
     webpackConfig.plugins.push(
       new HtmlWebpackPlugin({
         filename,
@@ -415,6 +445,8 @@ if (typeof config.pugDir != 'undefined') {
       directories.length > 1
         ? parentPath.repeat(directories.length - 1)
         : false;
+
+    console.log(filename);
     webpackConfig.plugins.push(
       new HtmlWebpackPlugin({
         filename,
