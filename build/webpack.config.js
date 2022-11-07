@@ -159,9 +159,8 @@ const webpackConfig = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: (resourcePath) => {
-                return '/';
                 if (isDevelopmentServer) {
-                  return '/';
+                  return '';
                   //return `/${config.distPath}/`;
                 }
                 if (/^\.\//.test(config.publicPath)) {

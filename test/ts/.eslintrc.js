@@ -1,4 +1,4 @@
-/*! Agile Pixel https://agilepixel.io - 2020*/
+/*! Agile Pixel https://agilepixel.io - 2022 */
 module.exports = {
     parser: '@typescript-eslint/parser', // we are changing default parser
     parserOptions: {
