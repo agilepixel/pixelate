@@ -4,6 +4,7 @@
   "description": "Modified version of the build scripts from the Sage Wordpress theme to make is portable for most use cases",
   "main": "index.js",
   "scripts": {
+    "build": "tsc build/webpack.config.ts --outfile build/webpack.config.js",
     "lint": "eslint build --quiet",
     "test": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --mode=development --config=build/webpack.config.js",
     "test:production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --mode=production --config=build/webpack.config.js",
