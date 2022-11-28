@@ -160,8 +160,7 @@ const webpackConfig = {
             options: {
               publicPath: (resourcePath) => {
                 if (isDevelopmentServer) {
-                  return '/';
-                  //return `/${config.distPath}/`;
+                  return `${config.distPath}`;
                 }
                 if (/^\.\//.test(config.publicPath)) {
                   return path.join(

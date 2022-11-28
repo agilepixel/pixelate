@@ -162,8 +162,7 @@ var webpackConfig = {
                         options: {
                             publicPath: function (resourcePath) {
                                 if (isDevelopmentServer) {
-                                    return '/';
-                                    //return `/${config.distPath}/`;
+                                    return "".concat(config.distPath);
                                 }
                                 if (/^\.\//.test(config.publicPath)) {
                                     return path.join(path.relative(path.dirname(resourcePath), config.paths.relative), config.publicPath);
