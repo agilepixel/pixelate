@@ -6,8 +6,14 @@ module.exports = {
     node: true,
   },
   root: true,
-  parser: 'vue-eslint-parser',
-  extends: ['agilepixel', 'prettier'],
+  parser: '@typescript-eslint/parser',
+  extends: [
+    'agilepixel',
+    'prettier',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+  ],
+  plugins: ['@typescript-eslint'],
   parserOptions: {
     parser: '@babel/eslint-parser',
     ecmaFeatures: {
@@ -26,6 +32,7 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
   },
   rules: {
+    '@typescript-eslint/no-var-requires': 'warn',
     'import/no-commonjs': 'off',
   },
 };

@@ -394,7 +394,7 @@ const walk = function (directory, extension) {
 
 let staticCount = 0;
 
-if (typeof config.twigDir != 'undefined') {
+if (config.twigDir !== undefined) {
   const twigFiles = walk(config.twigDir, '.twig');
   twigFiles.map((file) => {
     staticCount++;
@@ -426,7 +426,7 @@ if (typeof config.twigDir != 'undefined') {
   });
 }
 
-if (typeof config.pugDir != 'undefined') {
+if (config.pugDir !== undefined) {
   const pugFiles = walk(config.pugDir, '.pug');
   pugFiles.map((file) => {
     staticCount++;
@@ -460,7 +460,7 @@ if (typeof config.pugDir != 'undefined') {
   });
 }
 
-if (typeof config.staticHtml != 'undefined' && config.staticHtml.length > 0) {
+if (config.staticHtml !== undefined && config.staticHtml.length > 0) {
   config.staticHtml.forEach((config) => {
     staticCount++;
     webpackConfig.plugins.push(new HtmlWebpackPlugin(config));

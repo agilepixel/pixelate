@@ -383,7 +383,7 @@ var walk = function (directory, extension) {
 };
 //start looking in the main twig folder
 var staticCount = 0;
-if (typeof config.twigDir != 'undefined') {
+if (config.twigDir !== undefined) {
     var twigFiles = walk(config.twigDir, '.twig');
     twigFiles.map(function (file) {
         staticCount++;
@@ -409,7 +409,7 @@ if (typeof config.twigDir != 'undefined') {
         }));
     });
 }
-if (typeof config.pugDir != 'undefined') {
+if (config.pugDir !== undefined) {
     var pugFiles = walk(config.pugDir, '.pug');
     pugFiles.map(function (file) {
         staticCount++;
@@ -437,7 +437,7 @@ if (typeof config.pugDir != 'undefined') {
         }));
     });
 }
-if (typeof config.staticHtml != 'undefined' && config.staticHtml.length > 0) {
+if (config.staticHtml !== undefined && config.staticHtml.length > 0) {
     config.staticHtml.forEach(function (config) {
         staticCount++;
         webpackConfig.plugins.push(new HtmlWebpackPlugin(config));
