@@ -17,7 +17,7 @@ const triggerModuleLoad = function(element){
         //console.log(error);
     });
 };
-const io = !canuserIntersectionObserver ? false : new IntersectionObserver(function(entries) {
+const io = canuserIntersectionObserver ? new IntersectionObserver(function(entries) {
     for (const entriesRecord of entries) {
         const element = entriesRecord.target;
         const visible = entriesRecord.intersectionRatio !== 0;
@@ -26,14 +26,14 @@ const io = !canuserIntersectionObserver ? false : new IntersectionObserver(funct
             io.unobserve(element);
         }
     }
-});
+}) : false;
 const external = function(){
     throw new Error('external?');
 };
 const scan = function(selector){
     const items = selector.querySelectorAll('[data-module]:not(.initiated)');
     for (const element of items){
-        if (canuserIntersectionObserver && typeof element.dataset.instant === 'undefined'){
+        if (canuserIntersectionObserver && element.dataset.instant === undefined){
             io.observe(element);
         } else {
             triggerModuleLoad(element);

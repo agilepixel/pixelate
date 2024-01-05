@@ -1,6 +1,6 @@
-/*! Agile Pixel https://agilepixel.io - 2021*/
+/*! Agile Pixel https://agilepixel.io - 2024*/
 import React, { useState } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import Test from './TestComponent';
 
@@ -15,4 +15,6 @@ const App = function () {
   );
 };
 
-render(<App />, document.querySelector('#root'));
+const container = document.querySelector('#root');
+const root = createRoot(container);
+root.render(<App />);

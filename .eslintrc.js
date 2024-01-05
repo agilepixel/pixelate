@@ -35,4 +35,9 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'warn',
     'import/no-commonjs': 'off',
   },
+  settings: {
+    react: {
+      version: '18',
+    },
+  },
 };
