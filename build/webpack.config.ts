@@ -17,7 +17,6 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 
 const config = require('./config');
 
@@ -469,10 +468,6 @@ if (config.staticHtml !== undefined && config.staticHtml.length > 0) {
 
 if (staticCount > 0 && isDevelopmentServer) {
   webpackConfig.plugins.push(new HtmlWebpackHarddiskPlugin());
-}
-
-if (!isDevelopmentServer) {
-  webpackConfig.plugins.push(new SubresourceIntegrityPlugin());
 }
 
 /* eslint-disable global-require */

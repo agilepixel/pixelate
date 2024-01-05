@@ -43,7 +43,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        architecture: arm64
+        #architecture: arm64
     - name: Reconfigure git to use HTTP authentication
       run: |
           git config --global url."https://github.com/".insteadOf ssh://git@github.com/
@@ -55,32 +55,3 @@ jobs:
         npm run test:production
       env:
         CI: true
-
-  mac2:
-
-    runs-on: macos-latest-arm64
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 21.x]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        architecture: arm64
-    - name: Reconfigure git to use HTTP authentication
-      run: |
-          git config --global url."https://github.com/".insteadOf ssh://git@github.com/
-    - name: npm install, build, and test
-      run: |
-        npm ci
-        npm run lint
-        npm run test
-        npm run test:production
-      env:
-        CI: true
-
-

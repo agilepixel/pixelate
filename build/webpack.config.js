@@ -25,7 +25,6 @@ var WebpackManifestPlugin = require('webpack-manifest-plugin').WebpackManifestPl
 var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 var ESLintPlugin = require('eslint-webpack-plugin');
 var VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
-var SubresourceIntegrityPlugin = require('webpack-subresource-integrity').SubresourceIntegrityPlugin;
 var config = require('./config');
 var assetsFilenames = config.enabled.cacheBusting
     ? config.cacheBusting
@@ -445,9 +444,6 @@ if (config.staticHtml !== undefined && config.staticHtml.length > 0) {
 }
 if (staticCount > 0 && isDevelopmentServer) {
     webpackConfig.plugins.push(new HtmlWebpackHarddiskPlugin());
-}
-if (!isDevelopmentServer) {
-    webpackConfig.plugins.push(new SubresourceIntegrityPlugin());
 }
 /* eslint-disable global-require */
 /** Let's only load dependencies as needed */
