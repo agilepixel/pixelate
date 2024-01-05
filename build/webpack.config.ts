@@ -189,7 +189,7 @@ const webpackConfig = {
           'resolve-url-loader',
           {
             loader: 'sass-loader',
-            options: { sourceMap: true },
+            options: { implementation: require('sass'), ourceMap: true },
           },
         ],
       },

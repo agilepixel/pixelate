@@ -54,274 +54,280 @@ for (var _i = 0, entryKeys_1 = entryKeys; _i < entryKeys_1.length; _i++) {
     }
 }
 var webpackConfig = {
-    context: config.paths.assets,
-    entry: config.entry,
-    target: isDevelopmentServer ? 'web' : 'browserslist',
-    devtool: config.enabled.sourceMaps ? 'source-map' : false,
-    output: {
-        path: config.paths.dist,
-        publicPath: publicPath,
-        filename: config.flatten
-            ? "".concat(assetsFilenames, ".js")
-            : "scripts/".concat(assetsFilenames, ".js"),
-        crossOriginLoading: 'anonymous'
-    },
-    stats: {
-        hash: false,
-        logging: 'warn',
-        version: false,
-        timings: true,
-        children: false,
-        errors: true,
-        errorDetails: true,
-        warnings: true,
-        chunks: false,
-        modules: false,
-        reasons: false,
-        source: false,
-        publicPath: false
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: [
-                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
-                ],
-                loader: isDevelopmentServer ? 'babel-loader' : 'esbuild-loader',
-                options: isDevelopmentServer
-                    ? {}
-                    : {
-                        target: 'es2015'
-                    },
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.jsx$/,
-                exclude: [
-                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
-                ],
-                loader: isDevelopmentServer ? 'babel-loader' : 'esbuild-loader',
-                options: isDevelopmentServer
-                    ? {}
-                    : {
-                        loader: 'jsx',
-                        target: 'es2015'
-                    },
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.ts$/,
-                exclude: [
-                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
-                ],
-                loader: isDevelopmentServer ? 'ts-loader' : 'esbuild-loader',
-                options: isDevelopmentServer
-                    ? {}
-                    : {
-                        loader: 'ts',
-                        target: 'es2015'
-                    },
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.tsx$/,
-                exclude: [
-                    /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
-                ],
-                loader: isDevelopmentServer ? 'ts-loader' : 'esbuild-loader',
-                options: isDevelopmentServer
-                    ? {}
-                    : {
-                        loader: 'tsx',
-                        target: 'es2015'
-                    },
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.s?[ac]ss$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            publicPath: function (resourcePath) {
-                                if (isDevelopmentServer) {
-                                    return "".concat(config.distPath);
-                                }
-                                if (/^\.\//.test(config.publicPath)) {
-                                    return path.join(path.relative(path.dirname(resourcePath), config.paths.relative), config.publicPath);
-                                }
-                                return config.publicPath;
-                            }
-                        }
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 1,
-                            esModule: true,
-                            sourceMap: config.enabled.sourceMaps
-                        }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: { sourceMap: config.enabled.sourceMaps }
-                    },
-                    'resolve-url-loader',
-                    {
-                        loader: 'sass-loader',
-                        options: { sourceMap: true }
-                    },
-                ]
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg|mp4|ogv|webp)$/,
-                include: config.paths.assets,
-                type: 'asset/resource',
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.(ttf|eot)$/,
-                include: config.paths.assets,
-                type: 'asset/resource',
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.woff2?$/,
-                include: config.paths.assets,
-                type: isDevelopmentServer ? 'asset/resource' : 'asset',
-                generator: {
-                //outputPath: '',
-                }
-            },
-            {
-                test: /\.pug$/,
-                oneOf: [
-                    {
-                        resourceQuery: /^\?vue/,
-                        use: ['pug-plain-loader']
-                    },
-                    {
-                        use: {
-                            loader: 'pug-loader',
-                            options: { self: true, pretty: !config.env.production }
-                        }
-                    },
-                ]
-            },
-            {
-                test: /\.twig$/,
-                loader: 'twig-loader'
-            },
-            {
-                test: /\.(njk|nunjucks)$/,
-                loader: 'nunjucks-loader'
-            },
-        ]
-    },
-    resolve: {
-        modules: [config.paths.assets, 'node_modules', 'bower_components'],
-        enforceExtension: false,
-        alias: config.resolveAlias,
-        extensions: ['.jsx', '.ts', '.tsx', '...']
-    },
-    externals: {
-        window: 'window',
-        jquery: 'jQuery',
-        SparkForm: 'SparkForm'
-    },
-    optimization: {
-        minimizer: [
-            new TerserPlugin({
-                parallel: true,
-                terserOptions: {
-                    compress: { drop_console: config.env.production }
-                }
-            }),
+  context: config.paths.assets,
+  entry: config.entry,
+  target: isDevelopmentServer ? 'web' : 'browserslist',
+  devtool: config.enabled.sourceMaps ? 'source-map' : false,
+  output: {
+    path: config.paths.dist,
+    publicPath: publicPath,
+    filename: config.flatten
+      ? ''.concat(assetsFilenames, '.js')
+      : 'scripts/'.concat(assetsFilenames, '.js'),
+    crossOriginLoading: 'anonymous',
+  },
+  stats: {
+    hash: false,
+    logging: 'warn',
+    version: false,
+    timings: true,
+    children: false,
+    errors: true,
+    errorDetails: true,
+    warnings: true,
+    chunks: false,
+    modules: false,
+    reasons: false,
+    source: false,
+    publicPath: false,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
         ],
-        realContentHash: true
-    },
-    plugins: [
-        new webpack.DefinePlugin({
-            __TIMESTAMP__: Date.now()
-        }),
-        new BundleAnalyzerPlugin({
-            analyzerMode: profiler ? 'static' : 'disabled'
-        }),
-        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
-        new CleanWebpackPlugin({
-            dry: config.noCleaning || isDevelopmentServer,
-            verbose: isDevelopmentServer,
-            dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer
-        }),
-        new ESLintPlugin({
-            extensions: ['js', 'jsx', 'vue'],
-            exclude: ['node_modules', 'bower_components'],
-            fix: true
-        }),
-        new MiniCssExtractPlugin({
-            filename: config.flatten
-                ? "".concat(assetsFilenames, ".css")
-                : "styles/".concat(assetsFilenames, ".css")
-        }),
-        //new OptimizeCssAssetsPlugin(),
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery',
-            Tether: 'tether',
-            'window.Tether': 'tether'
-        }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: config.enabled.optimize,
-            debug: config.enabled.watcher,
-            stats: { colors: true }
-        }),
-        new webpack.LoaderOptionsPlugin({
-            test: /\.s?css$/,
+        loader: isDevelopmentServer ? 'babel-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              target: 'es2015',
+            },
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.jsx$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
+        loader: isDevelopmentServer ? 'babel-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              loader: 'jsx',
+              target: 'es2015',
+            },
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.ts$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
+        loader: isDevelopmentServer ? 'ts-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              loader: 'ts',
+              target: 'es2015',
+            },
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.tsx$/,
+        exclude: [
+          /(node_modules|bower_components)(?![/\\|](bootstrap|foundation-sites))/,
+        ],
+        loader: isDevelopmentServer ? 'ts-loader' : 'esbuild-loader',
+        options: isDevelopmentServer
+          ? {}
+          : {
+              loader: 'tsx',
+              target: 'es2015',
+            },
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.s?[ac]ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
             options: {
-                output: { path: config.paths.dist },
-                context: config.paths.assets,
-                postcss: [autoprefixer()]
-            }
-        }),
-        new webpack.LoaderOptionsPlugin({
-            test: /\.jsx?$/,
-            options: {
-                eslint: {
-                    failOnWarning: false,
-                    failOnError: true
+              publicPath: function (resourcePath) {
+                if (isDevelopmentServer) {
+                  return ''.concat(config.distPath);
                 }
-            }
-        }),
-        new StyleLintPlugin({
-            failOnError: !config.enabled.watcher,
-            customSyntax: require('postcss-scss'),
-            files: validStylelintDirectories,
-            formatter: require('stylelint-formatter-pretty'),
-            emitErrors: true,
-            fix: true
-        }),
-        /*new ServiceWorkerWebpackPlugin({
+                if (/^\.\//.test(config.publicPath)) {
+                  return path.join(
+                    path.relative(
+                      path.dirname(resourcePath),
+                      config.paths.relative
+                    ),
+                    config.publicPath
+                  );
+                }
+                return config.publicPath;
+              },
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              esModule: true,
+              sourceMap: config.enabled.sourceMaps,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: { sourceMap: config.enabled.sourceMaps },
+          },
+          'resolve-url-loader',
+          {
+            loader: 'sass-loader',
+            options: { implementation: require('sass'), sourceMap: true },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|mp4|ogv|webp)$/,
+        include: config.paths.assets,
+        type: 'asset/resource',
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.(ttf|eot)$/,
+        include: config.paths.assets,
+        type: 'asset/resource',
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.woff2?$/,
+        include: config.paths.assets,
+        type: isDevelopmentServer ? 'asset/resource' : 'asset',
+        generator: {
+          //outputPath: '',
+        },
+      },
+      {
+        test: /\.pug$/,
+        oneOf: [
+          {
+            resourceQuery: /^\?vue/,
+            use: ['pug-plain-loader'],
+          },
+          {
+            use: {
+              loader: 'pug-loader',
+              options: { self: true, pretty: !config.env.production },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.twig$/,
+        loader: 'twig-loader',
+      },
+      {
+        test: /\.(njk|nunjucks)$/,
+        loader: 'nunjucks-loader',
+      },
+    ],
+  },
+  resolve: {
+    modules: [config.paths.assets, 'node_modules', 'bower_components'],
+    enforceExtension: false,
+    alias: config.resolveAlias,
+    extensions: ['.jsx', '.ts', '.tsx', '...'],
+  },
+  externals: {
+    window: 'window',
+    jquery: 'jQuery',
+    SparkForm: 'SparkForm',
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          compress: { drop_console: config.env.production },
+        },
+      }),
+    ],
+    realContentHash: true,
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __TIMESTAMP__: Date.now(),
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: profiler ? 'static' : 'disabled',
+    }),
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
+    new CleanWebpackPlugin({
+      dry: config.noCleaning || isDevelopmentServer,
+      verbose: isDevelopmentServer,
+      dangerouslyAllowCleanPatternsOutsideProject: isDevelopmentServer,
+    }),
+    new ESLintPlugin({
+      extensions: ['js', 'jsx', 'vue'],
+      exclude: ['node_modules', 'bower_components'],
+      fix: true,
+    }),
+    new MiniCssExtractPlugin({
+      filename: config.flatten
+        ? ''.concat(assetsFilenames, '.css')
+        : 'styles/'.concat(assetsFilenames, '.css'),
+    }),
+    //new OptimizeCssAssetsPlugin(),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Tether: 'tether',
+      'window.Tether': 'tether',
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: config.enabled.optimize,
+      debug: config.enabled.watcher,
+      stats: { colors: true },
+    }),
+    new webpack.LoaderOptionsPlugin({
+      test: /\.s?css$/,
+      options: {
+        output: { path: config.paths.dist },
+        context: config.paths.assets,
+        postcss: [autoprefixer()],
+      },
+    }),
+    new webpack.LoaderOptionsPlugin({
+      test: /\.jsx?$/,
+      options: {
+        eslint: {
+          failOnWarning: false,
+          failOnError: true,
+        },
+      },
+    }),
+    new StyleLintPlugin({
+      failOnError: !config.enabled.watcher,
+      customSyntax: require('postcss-scss'),
+      files: validStylelintDirectories,
+      formatter: require('stylelint-formatter-pretty'),
+      emitErrors: true,
+      fix: true,
+    }),
+    /*new ServiceWorkerWebpackPlugin({
                 entry: path.join(__dirname, `../${config.swPath}`),
                 filename: '../sw.js',
                 publicPath: config.publicPath,
@@ -330,31 +336,31 @@ var webpackConfig = {
                     version: gitInfo.toString(),
                 }),
             }),*/
-        new VueLoaderPlugin(),
-    ],
-    // eslint-disable-next-line unicorn/prevent-abbreviations
-    devServer: {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        https: true,
-        allowedHosts: 'all',
-        static: {
-            publicPath: config.devUrl
-        },
-        compress: false,
-        host: 'localhost',
-        port: config.devServerPort,
-        client: {
-            overlay: {
-                errors: true,
-                warnings: false
-            }
-        },
-        devMiddleware: {
-            writeToDisk: function (filePath) {
-                return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);
-            }
-        }
-    }
+    new VueLoaderPlugin(),
+  ],
+  // eslint-disable-next-line unicorn/prevent-abbreviations
+  devServer: {
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    https: true,
+    allowedHosts: 'all',
+    static: {
+      publicPath: config.devUrl,
+    },
+    compress: false,
+    host: 'localhost',
+    port: config.devServerPort,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
+    devMiddleware: {
+      writeToDisk: function (filePath) {
+        return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);
+      },
+    },
+  },
 };
 if (config.copy.length > 0) {
     webpackConfig.plugins.push(new CopyWebpackPlugin({ patterns: config.copy }));
