@@ -1,69 +1,65 @@
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 /*! Agile Pixel https://agilepixel.io - 2022*/
-var path = require('path');
-var fs = require('fs');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var TerserPlugin = require('terser-webpack-plugin');
-var autoprefixer = require('autoprefixer');
-var CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var StyleLintPlugin = require('stylelint-webpack-plugin');
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require('path');
+const fs = require('fs');
+
+const rspack = require('@rspack/core');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 //const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var openWindow = require('open');
-var WebpackManifestPlugin = require('webpack-manifest-plugin').WebpackManifestPlugin;
-var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-var ESLintPlugin = require('eslint-webpack-plugin');
-var VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
-var config = require('./config');
-var assetsFilenames = config.enabled.cacheBusting
-    ? config.cacheBusting
-    : '[name]';
-var profiler = process.argv.indexOf('--profile') !== -1;
-var isDevelopmentServer = process.argv.indexOf('serve') !== -1;
-var publicPath = isDevelopmentServer
-    ? "https://localhost:".concat(config.devServerPort, "/")
-    : config.publicPath;
+const openWindow = require('open');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+
+const config = require('./config');
+
+const assetsFilenames = config.enabled.cacheBusting
+  ? config.cacheBusting
+  : '[name]';
+
+const profiler = process.argv.indexOf('--profile') !== -1;
+
+const isDevelopmentServer = process.argv.indexOf('serve') !== -1;
+const publicPath = isDevelopmentServer
+  ? `https://localhost:${config.devServerPort}/`
+  : config.publicPath;
+
 if (isDevelopmentServer) {
-    openWindow(config.devUrl);
+  openWindow(config.devUrl);
 }
-var entryKeys = Object.keys(config.entry);
-var validStylelintDirectories = [];
-for (var _i = 0, entryKeys_1 = entryKeys; _i < entryKeys_1.length; _i++) {
-    var entryKey = entryKeys_1[_i];
-    for (var _a = 0, _b = config.entry[entryKey]; _a < _b.length; _a++) {
-        var directory = _b[_a];
-        var newPath = "".concat(path.dirname(directory), "/**/*.s?(a|c)ss");
-        if (validStylelintDirectories.indexOf(newPath) === -1) {
-            validStylelintDirectories.push(newPath);
-        }
-        var newPathRoot = "".concat(path.dirname(directory), "/*.s?(a|c)ss");
-        if (validStylelintDirectories.indexOf(newPathRoot) === -1) {
-            validStylelintDirectories.push(newPathRoot);
-        }
+
+const entryKeys = Object.keys(config.entry);
+
+const validStylelintDirectories = [];
+for (const entryKey of entryKeys) {
+  for (const directory of config.entry[entryKey]) {
+    const newPath = `${path.dirname(directory)}/**/*.s?(a|c)ss`;
+    if (validStylelintDirectories.indexOf(newPath) === -1) {
+      validStylelintDirectories.push(newPath);
     }
+    const newPathRoot = `${path.dirname(directory)}/*.s?(a|c)ss`;
+    if (validStylelintDirectories.indexOf(newPathRoot) === -1) {
+      validStylelintDirectories.push(newPathRoot);
+    }
+  }
 }
-var webpackConfig = {
+
+const webpackConfig = {
   context: config.paths.assets,
   entry: config.entry,
   target: isDevelopmentServer ? 'web' : 'browserslist',
   devtool: config.enabled.sourceMaps ? 'source-map' : false,
   output: {
     path: config.paths.dist,
-    publicPath: publicPath,
+    publicPath,
     filename: config.flatten
-      ? ''.concat(assetsFilenames, '.js')
-      : 'scripts/'.concat(assetsFilenames, '.js'),
+      ? `${assetsFilenames}.js`
+      : `scripts/${assetsFilenames}.js`,
     crossOriginLoading: 'anonymous',
   },
   stats: {
@@ -92,7 +88,7 @@ var webpackConfig = {
         options: isDevelopmentServer
           ? {}
           : {
-              target: 'es2015',
+              target: 'es2015', // Syntax to compile to (see options below for possible values)
             },
         generator: {
           //outputPath: '',
@@ -107,8 +103,8 @@ var webpackConfig = {
         options: isDevelopmentServer
           ? {}
           : {
-              loader: 'jsx',
-              target: 'es2015',
+              loader: 'jsx', // Remove this if you're not using JSX
+              target: 'es2015', // Syntax to compile to (see options below for possible values)
             },
         generator: {
           //outputPath: '',
@@ -157,19 +153,19 @@ var webpackConfig = {
         test: /\.s?[ac]ss$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: rspack.CssExtractRspackPlugin.loader,
             options: {
-              publicPath: function (resourcePath) {
+              publicPath: (resourcePath) => {
                 if (isDevelopmentServer) {
-                  return ''.concat(config.distPath);
+                  return `${config.distPath}`;
                 }
                 if (/^\.\//.test(config.publicPath)) {
                   return path.join(
                     path.relative(
                       path.dirname(resourcePath),
-                      config.paths.relative
+                      config.paths.relative,
                     ),
-                    config.publicPath
+                    config.publicPath,
                   );
                 }
                 return config.publicPath;
@@ -191,7 +187,7 @@ var webpackConfig = {
           'resolve-url-loader',
           {
             loader: 'sass-loader',
-            options: { implementation: require('sass'), sourceMap: true },
+            options: { implementation: require('sass'), ourceMap: true },
           },
         ],
       },
@@ -267,13 +263,13 @@ var webpackConfig = {
     realContentHash: true,
   },
   plugins: [
-    new webpack.DefinePlugin({
+    new rspack.DefinePlugin({
       __TIMESTAMP__: Date.now(),
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: profiler ? 'static' : 'disabled',
     }),
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
+    //new rspack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
     new CleanWebpackPlugin({
       dry: config.noCleaning || isDevelopmentServer,
       verbose: isDevelopmentServer,
@@ -284,25 +280,25 @@ var webpackConfig = {
       exclude: ['node_modules', 'bower_components'],
       fix: true,
     }),
-    new MiniCssExtractPlugin({
+    new rspack.CssExtractRspackPlugin({
       filename: config.flatten
-        ? ''.concat(assetsFilenames, '.css')
-        : 'styles/'.concat(assetsFilenames, '.css'),
+        ? `${assetsFilenames}.css`
+        : `styles/${assetsFilenames}.css`,
     }),
     //new OptimizeCssAssetsPlugin(),
-    new webpack.ProvidePlugin({
+    new rspack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Tether: 'tether',
       'window.Tether': 'tether',
     }),
-    new webpack.LoaderOptionsPlugin({
+    new rspack.LoaderOptionsPlugin({
       minimize: config.enabled.optimize,
       debug: config.enabled.watcher,
       stats: { colors: true },
     }),
-    new webpack.LoaderOptionsPlugin({
+    new rspack.LoaderOptionsPlugin({
       test: /\.s?css$/,
       options: {
         output: { path: config.paths.dist },
@@ -310,7 +306,7 @@ var webpackConfig = {
         postcss: [autoprefixer()],
       },
     }),
-    new webpack.LoaderOptionsPlugin({
+    new rspack.LoaderOptionsPlugin({
       test: /\.jsx?$/,
       options: {
         eslint: {
@@ -328,14 +324,14 @@ var webpackConfig = {
       fix: true,
     }),
     /*new ServiceWorkerWebpackPlugin({
-                entry: path.join(__dirname, `../${config.swPath}`),
-                filename: '../sw.js',
-                publicPath: config.publicPath,
-                transformOptions: serviceWorkerOption => ({
-                    assets: serviceWorkerOption.assets,
-                    version: gitInfo.toString(),
-                }),
-            }),*/
+            entry: path.join(__dirname, `../${config.swPath}`),
+            filename: '../sw.js',
+            publicPath: config.publicPath,
+            transformOptions: serviceWorkerOption => ({
+                assets: serviceWorkerOption.assets,
+                version: gitInfo.toString(),
+            }),
+        }),*/
     new VueLoaderPlugin(),
   ],
   // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -356,121 +352,149 @@ var webpackConfig = {
       },
     },
     devMiddleware: {
-      writeToDisk: function (filePath) {
+      writeToDisk: (filePath) => {
         return /\.(png|jpe?g|gif|svg|ttf|eot|woff2?)$/.test(filePath);
       },
     },
   },
 };
+
 if (config.copy.length > 0) {
-    webpackConfig.plugins.push(new CopyWebpackPlugin({ patterns: config.copy }));
+  webpackConfig.plugins.push(
+    new rspack.CopyRspackPlugin({ patterns: config.copy }),
+  );
 }
-var walk = function (directory, extension) {
-    var results = [];
-    var list = fs.readdirSync(directory);
-    // eslint-disable-next-line unicorn/no-array-for-each
-    list.forEach(function (file) {
-        file = "".concat(directory, "/").concat(file);
-        var stat = fs.statSync(file);
-        if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
-            /* Recurse into a subdirectory */
-            results = __spreadArray(__spreadArray([], results, true), walk(file, extension), true);
-        }
-        else if (stat &&
-            !stat.isDirectory() &&
-            path.extname(file) === extension &&
-            path.basename(file).indexOf('_') !== 0) {
-            /* Is a file */
-            results.push(file);
-        }
-    });
-    return results;
+
+const walk = function (directory, extension) {
+  let results = [];
+  const list = fs.readdirSync(directory);
+
+  // eslint-disable-next-line unicorn/no-array-for-each
+  list.forEach((file) => {
+    file = `${directory}/${file}`;
+    const stat = fs.statSync(file);
+    if (stat && stat.isDirectory() && path.basename(file).indexOf('_') !== 0) {
+      /* Recurse into a subdirectory */
+      results = [...results, ...walk(file, extension)];
+    } else if (
+      stat &&
+      !stat.isDirectory() &&
+      path.extname(file) === extension &&
+      path.basename(file).indexOf('_') !== 0
+    ) {
+      /* Is a file */
+      results.push(file);
+    }
+  });
+  return results;
 };
+
 //start looking in the main twig folder
-var staticCount = 0;
+
+let staticCount = 0;
+
 if (config.twigDir !== undefined) {
-    var twigFiles = walk(config.twigDir, '.twig');
-    twigFiles.map(function (file) {
-        staticCount++;
-        var basedir = config.htmlOutput;
-        var filename = config.htmlOutput +
-            file
-                .replace("".concat(config.twigDir, "/"), '')
-                .replace(config.twigDir, '')
-                .replace('.twig', '.html');
-        var directories = path.relative(basedir, filename).split(path.sep);
-        var parentPath = '../';
-        var base = directories.length > 1
-            ? parentPath.repeat(directories.length - 1)
-            : false;
-        webpackConfig.plugins.push(new HtmlWebpackPlugin({
-            filename: filename,
-            template: path.resolve(file),
-            hash: false,
-            showErrors: true,
-            xhtml: true,
-            base: base,
-            alwaysWriteToDisk: isDevelopmentServer
-        }));
-    });
+  const twigFiles = walk(config.twigDir, '.twig');
+  twigFiles.map((file) => {
+    staticCount++;
+    const basedir = config.htmlOutput;
+    const filename =
+      config.htmlOutput +
+      file
+        .replace(`${config.twigDir}/`, '')
+        .replace(config.twigDir, '')
+        .replace('.twig', '.html');
+    const directories = path.relative(basedir, filename).split(path.sep);
+    const parentPath = '../';
+    const base =
+      directories.length > 1
+        ? parentPath.repeat(directories.length - 1)
+        : false;
+
+    webpackConfig.plugins.push(
+      new HtmlWebpackPlugin({
+        filename,
+        template: path.resolve(file),
+        hash: false,
+        showErrors: true,
+        xhtml: true,
+        base,
+        alwaysWriteToDisk: isDevelopmentServer,
+      }),
+    );
+  });
 }
+
 if (config.pugDir !== undefined) {
-    var pugFiles = walk(config.pugDir, '.pug');
-    pugFiles.map(function (file) {
-        staticCount++;
-        var basedir = config.htmlOutput;
-        var filename = config.htmlOutput +
-            file
-                .replace("".concat(config.pugDir, "/"), '')
-                .replace(config.pugDir, '')
-                .replace('.pug', '.html');
-        var directories = path.relative(basedir, filename).split(path.sep);
-        var parentPath = '../';
-        var base = directories.length > 1
-            ? parentPath.repeat(directories.length - 1)
-            : false;
-        console.log(filename);
-        webpackConfig.plugins.push(new HtmlWebpackPlugin({
-            filename: filename,
-            environment: process.env.NODE_ENV,
-            template: path.resolve(file),
-            hash: false,
-            showErrors: true,
-            xhtml: true,
-            base: base,
-            alwaysWriteToDisk: isDevelopmentServer
-        }));
-    });
+  const pugFiles = walk(config.pugDir, '.pug');
+  pugFiles.map((file) => {
+    staticCount++;
+    const basedir = config.htmlOutput;
+    const filename =
+      config.htmlOutput +
+      file
+        .replace(`${config.pugDir}/`, '')
+        .replace(config.pugDir, '')
+        .replace('.pug', '.html');
+    const directories = path.relative(basedir, filename).split(path.sep);
+    const parentPath = '../';
+    const base =
+      directories.length > 1
+        ? parentPath.repeat(directories.length - 1)
+        : false;
+
+    console.log(filename);
+    webpackConfig.plugins.push(
+      new HtmlWebpackPlugin({
+        filename,
+        environment: process.env.NODE_ENV,
+        template: path.resolve(file),
+        hash: false,
+        showErrors: true,
+        xhtml: true,
+        base,
+        alwaysWriteToDisk: isDevelopmentServer,
+      }),
+    );
+  });
 }
+
 if (config.staticHtml !== undefined && config.staticHtml.length > 0) {
-    config.staticHtml.forEach(function (config) {
-        staticCount++;
-        webpackConfig.plugins.push(new HtmlWebpackPlugin(config));
-    });
+  config.staticHtml.forEach((config) => {
+    staticCount++;
+    webpackConfig.plugins.push(new HtmlWebpackPlugin(config));
+  });
 }
+
 if (staticCount > 0 && isDevelopmentServer) {
-    webpackConfig.plugins.push(new HtmlWebpackHarddiskPlugin());
+  webpackConfig.plugins.push(new HtmlWebpackHarddiskPlugin());
 }
+
 /* eslint-disable global-require */
 /** Let's only load dependencies as needed */
+
 if (config.env.production) {
-    webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin());
+  webpackConfig.plugins.push(new rspack.NoEmitOnErrorsPlugin());
 }
-webpackConfig.plugins.push(new WebpackManifestPlugin({
-    publicPath: publicPath,
+
+webpackConfig.plugins.push(
+  new WebpackManifestPlugin({
+    publicPath,
     basePath: config.publicPath,
     fileName: config.manifestPath,
     writeToFileEmit: isDevelopmentServer,
-    filter: function (file) { return !/\.(LICENSE|scss|map)/.test(file.name); },
-    map: function (file) {
-        if (file.isAsset) {
-            return file;
-        }
-        var filename = path.basename(file.name);
-        //const sourcePath = path.basename(path.dirname(file.name));
-        var targetPath = path.basename(path.dirname(file.path));
-        file.name = "".concat(config.publicPath).concat(targetPath, "/").concat(filename);
+    filter: (file) => !/\.(LICENSE|scss|map)/.test(file.name),
+    map: (file) => {
+      if (file.isAsset) {
         return file;
-    }
-}));
+      }
+      const filename = path.basename(file.name);
+      //const sourcePath = path.basename(path.dirname(file.name));
+      const targetPath = path.basename(path.dirname(file.path));
+      file.name = `${config.publicPath}${targetPath}/${filename}`;
+      return file;
+    },
+  })
+);
+
 module.exports = webpackConfig;
